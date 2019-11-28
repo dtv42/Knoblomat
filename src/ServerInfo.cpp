@@ -9,6 +9,7 @@
 #include <String.h>
 #include <ArduinoJson.hpp>
 #include <ArduinoJson.h>
+
 #include "ServerInfo.h"
 
 char* ServerInfoClass::HOSTNAME = "knoblomat";		// The default hostname (mDNS)

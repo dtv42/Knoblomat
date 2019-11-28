@@ -11,7 +11,7 @@
 #include <ArduinoJson.h>
 #include <esp_wifi.h>
 
-#include "include/WiFiInfo.h"
+#include "WiFiInfo.h"
 
 /// <summary>
 ///  Using a WiFi instance to get the actual data.

@@ -9,7 +9,7 @@
 #include <String.h>
 #include <ArduinoJson.hpp>
 #include <ArduinoJson.h>
-#include "include/WiFiSettings.h"
+#include "WiFiSettings.h"
 
 /// <summary>
 /// Initializes selected data fields to default values.
@@ -102,30 +102,30 @@ bool WiFiSettingsClass::deserialize(String json)
 		}
 
 		s = doc["SSID"] | SSID;
-		SSID = (s.length > MAX_SSID_LEN) ? s.substring(0, MAX_SSID_LEN) : s;
+		SSID = (s.length() > MAX_SSID_LEN) ? s.substring(0, MAX_SSID_LEN) : s;
 
 		s = doc["PASS"] | PASS;
-		PASS = (s.length > MAX_PASS_LEN) ? s.substring(0, MAX_PASS_LEN) : s;
+		PASS = (s.length() > MAX_PASS_LEN) ? s.substring(0, MAX_PASS_LEN) : s;
 
 		s = doc["Hostname"] | Hostname;
-		Hostname = (s.length > MAX_HOSTNAME_LEN) ? s.substring(0, MAX_HOSTNAME_LEN) : s;
+		Hostname = (s.length() > MAX_HOSTNAME_LEN) ? s.substring(0, MAX_HOSTNAME_LEN) : s;
 
 		DHCP = doc["DHCP"] | DHCP;
 
 		s = doc["Address"] | Address;
-		Address = (s.length > MAX_IPADDRESS_LEN) ? s.substring(0, MAX_IPADDRESS_LEN) : s;
+		Address = (s.length() > MAX_IPADDRESS_LEN) ? s.substring(0, MAX_IPADDRESS_LEN) : s;
 
 		s = doc["Gateway"] | Gateway;
-		Gateway = (s.length > MAX_IPADDRESS_LEN) ? s.substring(0, MAX_IPADDRESS_LEN) : s;
+		Gateway = (s.length() > MAX_IPADDRESS_LEN) ? s.substring(0, MAX_IPADDRESS_LEN) : s;
 
 		s = doc["Subnet"] | Subnet;
-		Subnet = (s.length > MAX_IPADDRESS_LEN) ? s.substring(0, MAX_IPADDRESS_LEN) : s;
+		Subnet = (s.length() > MAX_IPADDRESS_LEN) ? s.substring(0, MAX_IPADDRESS_LEN) : s;
 
 		s = doc["DNS1"] | DNS1;
-		DNS1 = (s.length > MAX_IPADDRESS_LEN) ? s.substring(0, MAX_IPADDRESS_LEN) : s;
+		DNS1 = (s.length() > MAX_IPADDRESS_LEN) ? s.substring(0, MAX_IPADDRESS_LEN) : s;
 
 		s = doc["DNS2"] | DNS2;
-		DNS2 = (s.length > MAX_IPADDRESS_LEN) ? s.substring(0, MAX_IPADDRESS_LEN) : s;
+		DNS2 = (s.length() > MAX_IPADDRESS_LEN) ? s.substring(0, MAX_IPADDRESS_LEN) : s;
 
 		return true;
 	}

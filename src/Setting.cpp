@@ -9,7 +9,8 @@
 #include <String.h>
 #include <ArduinoJson.hpp>
 #include <ArduinoJson.h>
-#include "include/Settings.h"
+
+#include "Settings.h"
 
 /// <summary>
 /// Initializes all data from the non volatile storage.

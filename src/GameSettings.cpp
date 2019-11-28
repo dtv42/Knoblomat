@@ -9,7 +9,8 @@
 #include <String.h>
 #include <ArduinoJson.hpp>
 #include <ArduinoJson.h>
-#include "include/GameSettings.h"
+
+#include "GameSettings.h"
 
 /// <summary>
 /// Initializes selected data fields to default values.
