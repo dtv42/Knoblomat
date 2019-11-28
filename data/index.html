@@ -70,7 +70,7 @@
                 </div>
             </div>
 
-            <div class="panel black">
+            <div id="knoblomat" class="panel black">
                 <div class="row">
                     <div class="col"><div id="led7" class="led-off vc">&nbsp;</div></div>
                     <div class="col"><div id="led8" class="led-off vc">&nbsp;</div></div>
@@ -396,6 +396,12 @@
                 losses = data.Losses;
             });
         });
+
+        $(document).ready(function () {
+            $('html, body').animate({
+                scrollTop: $('#knoblomat').offset().top
+            }, 'slow');
+        });  
 
     </script>
 </body>

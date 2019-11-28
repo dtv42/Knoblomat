@@ -289,7 +289,7 @@ void setup()
 
 		server.on("/favicon.ico", HTTP_GET, [](AsyncWebServerRequest* request) {
 			Serial.println("GET: /favicon.ico");
-			request->send(SPIFFS, "/favicon.png", "image/png");
+			request->send(SPIFFS, "/images/favicon.png", "image/png");
 			});
 
 		server.on("/js/bootstrap.min.js", HTTP_GET, [](AsyncWebServerRequest* request) {
@@ -532,6 +532,8 @@ void loop()
 				settings.WiFiSettings.PASS = info.PASS;
 				settings.WiFiSettings.DHCP = true;
 				settings.WiFiSettings.save();
+
+				ESP.restart();
 			}
 			else
 			{
