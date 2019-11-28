@@ -43,34 +43,34 @@
         <div class='container'>
             <h1 class='display-4'>Settings</h1>
             <h3>Knoblomat&reg; Server Info</h3>
-            <p>The Knoblomat&reg; provides a web interface at:</p>
-    <pre id='serverInfo'>
-    <b>Web Server:</b>
+            <p>Available at:</p>
+            <pre id='serverInfo'>
+            <b>Web Server:</b>
         Address (AP):   <span id='server_ap_address'>???.???.???.???</span>
         Address (WiFi): <span id='server_wifi_address'>???.???.???.???</span>
-        Name:           <span id='server_name'>????????????????????????????????</span>
+        Hostname:       <span id='server_name'>????????????????????????????????</span>
         Port:           <span id='server_port'>??????</span>
         URL:            <span id='server_url'>??????</span>
     </pre>
             <p></p>
             <h3>Knoblomat&reg; WiFi Settings</h3>
-            <p>The WiFi access point and the optional WiFi connection data provided by the Knoblomat&reg;.</p>
-    <pre id='apInfo' style='display: none;'>
-    <b>WiFi Access Point:</b>
+            <p>WiFi access point.</p>
+            <pre id='apInfo' style='display: none;'>
+            <b>WiFi Access Point:</b>
         SSID:      <span id='ap_ssid'>????????????????????????????????</span>
         PASS:      <span id='ap_pass'>????????????????????????????????</span>
-        Hostname:  <span id='ap_hostname'>???.???.???.???</span>
         NetworkID: <span id='ap_networkid'>???.???.???.???</span>
+        Hostname:  <span id='ap_hostname'>???.???.???.???</span>
         Address:   <span id='ap_address'>???.???.???.???</span>
         Clients:   <span id='ap_clients'>?</span>
         MAC:       <span id='ap_mac'>??:??:??:??:??:??</span>
     </pre>
-    <pre id='wifiInfo' style='display: none;'>
-    <b>WiFi Network:</b>
+            <pre id='wifiInfo' style='display: none;'>
+            <b>WiFi Network:</b>
         SSID:      <span id='wifi_ssid'>????????????????????????????????</span>
         PASS:      <span id='wifi_pass'>????????????????????????????????</span>
-        Hostname:  <span id='wifi_hostname'>???.???.???.???</span>
         NetworkID: <span id='wifi_networkid'>???.???.???.???</span>
+        Hostname:  <span id='wifi_hostname'>???.???.???.???</span>
         Address:   <span id='wifi_address'>???.???.???.???</span>
         Gateway:   <span id='wifi_gateway'>???.???.???.???</span>
         Subnet:    <span id='wifi_subnet'>???.???.???.???</span>
@@ -80,7 +80,7 @@
     </pre>
             <p></p>
             <h3>WiFi Configuration</h3>
-            <p>Configure the Knoblomat&reg; WiFi access point.</p>
+            <p>Configure WiFi access point (default).</p>
             <!-- Access Point Configuration -->
             <button id='apButton' type='button' class='btn btn-secondary' data-toggle='modal' data-target='#apModal'>
                 Access Point Setup
@@ -139,7 +139,7 @@
                 </div>
             </div>
             <p></p>
-            <p>Configure the Knoblomat&reg; WiFi network connection (optional).</p>
+            <p>Configure WiFi network connection.</p>
             <!-- WiFi Configuration -->
             <button id='wifiButton' type='button' class='btn btn-secondary' data-toggle='modal' data-target='#wifiModal'>
                 WiFi Station Setup
@@ -209,28 +209,90 @@
             <p>
                 The Knoblomat&reg; uses WiFi Smart Configuration to connect to an existing network.
                 A smartphone and an special app is required:
-                <ul>
-                    <li>
-                        For iOS, this application is available under name '<i>Espressif Esptouch</i>'.</li>
-                    <li>
-                        For Android, an application is available under name '<i>Espressif Esptouch</i>' or '<i>ESP8266 SmartConfig</i>'.
-                    </li>
-                </ul>
-                Note that the resulting WiFi connection uses DHCP.
+                - For iOS, this application is available under name '<i>Espressif Esptouch</i>'.
+                - For Android, an application is available under name '<i>Espressif Esptouch</i>' or '<i>ESP8266 SmartConfig</i>'.
             </p>
-            <button id='smartButton' type='button' class='btn btn-success' data-toggle='modal' data-target='#resultsModal'>
+            <button id='smartButton' type='button' class='btn btn-success' data-toggle='modal' data-target='#smartModal'>
                 WiFi Smart Config
             </button>
+            <!-- Modal -->
+            <div class='modal fade' id='smartModal' tabindex='-1' role='dialog' aria-labelledby='smartModalLabel' aria-hidden='true'>
+                <div class='modal-dialog modal-dialog-centered' role='document'>
+                    <div class='modal-content'>
+                        <div class='modal-header'>
+                            <h5 class='modal-title' id='smartModalLabel'>SmartConfig</h5>
+                            <button type='button' class='close' data-dismiss='modal' aria-label='Close'>
+                                <span aria-hidden='true'>&times;</span>
+                            </button>
+                        </div>
+                        <div class='modal-body'>
+                            <form id='smartModalForm' role='form'>
+                                <p>Start the <i>EspTouch</i> app on Your smartphone.</p>
+                                <p>Please enter Your WiFi accesspoint credentials on the phone and confirm the data.</p>
+                                <button type='submit' class='btn btn-success btn-success btn-block'>Start SmartConfig</button>
+                            </form>
+                        </div>
+                        <div class='modal-footer'>
+                            <button type='button' class='btn btn-primary' data-dismiss='modal'>Cancel</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
             <p></p>
-            <p>Clear the stored configuration data (after restart the Knoblomat&reg; runs as a default access point only).</p>
-            <button id='clearButton' type='button' class='btn btn-warning' data-toggle='modal' data-target='#resultsModal'>
+            <p>Clear the stored configuration data (after restart the Knoblomat&reg; runs as an access point).</p>
+            <button id='clearButton' type='button' class='btn btn-warning' data-toggle='modal' data-target='#clearModal'>
                 Reset WiFi Config
             </button>
+            <!-- Modal -->
+            <div class='modal fade' id='clearModal' tabindex='-1' role='dialog' aria-labelledby='clearModalLabel' aria-hidden='true'>
+                <div class='modal-dialog modal-dialog-centered' role='document'>
+                    <div class='modal-content'>
+                        <div class='modal-header'>
+                            <h5 class='modal-title' id='clearModalLabel'>Reset WiFi Config</h5>
+                            <button type='button' class='close' data-dismiss='modal' aria-label='Close'>
+                                <span aria-hidden='true'>&times;</span>
+                            </button>
+                        </div>
+                        <div class='modal-body'>
+                            <form id='clearModalForm' role='form'>
+                                <p>Do You really want to clear all WiFi settings?</p>
+                                <p>The Knoblomat&reg; will restart in the default WiFi accesspoint mode.</p>
+                                <button type='submit' class='btn btn-warning btn-success btn-block'>Reset WiFi Config</button>
+                            </form>
+                        </div>
+                        <div class='modal-footer'>
+                            <button type='button' class='btn btn-primary' data-dismiss='modal'>Cancel</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
             <p></p>
             <p>Restart the Knoblomat&reg; (reboot).</p>
-            <button id='rebootButton' type='button' class='btn btn-danger' data-toggle='modal' data-target='#resultsModal'>
+            <button id='rebootButton' type='button' class='btn btn-danger' data-toggle='modal' data-target='#rebootModal'>
                 Reboot Knoblomat&reg;
             </button>
+            <!-- Modal -->
+            <div class='modal fade' id='rebootModal' tabindex='-1' role='dialog' aria-labelledby='rebootModalLabel' aria-hidden='true'>
+                <div class='modal-dialog modal-dialog-centered' role='document'>
+                    <div class='modal-content'>
+                        <div class='modal-header'>
+                            <h5 class='modal-title' id='rebootModalLabel'>Reboot Knoblomat&reg;</h5>
+                            <button type='button' class='close' data-dismiss='modal' aria-label='Close'>
+                                <span aria-hidden='true'>&times;</span>
+                            </button>
+                        </div>
+                        <div class='modal-body'>
+                            <form id='rebootModalForm' role='form'>
+                                Do You really want to reboot the Knoblomat&reg;?
+                                <button type='submit' class='btn btn-danger btn-success btn-block'>Reboot Knoblomat&reg;</button>
+                            </form>
+                        </div>
+                        <div class='modal-footer'>
+                            <button type='button' class='btn btn-primary' data-dismiss='modal'>Cancel</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
     <footer class='border-top footer text-muted'>
@@ -277,8 +339,8 @@
                             if (apOK) {
                                 $('#ap_ssid')[0].innerHTML = apInfo.SSID;
                                 $('#ap_pass')[0].innerHTML = apInfo.PASS;
-                                $('#ap_hostname')[0].innerHTML = apInfo.Hostname;
                                 $('#ap_networkid')[0].innerHTML = apInfo.NetworkID;
+                                $('#ap_hostname')[0].innerHTML = apInfo.Hostname;
                                 $('#ap_address')[0].innerHTML = apInfo.Address;
                                 $('#ap_clients')[0].innerHTML = apInfo.Clients;
                                 $('#ap_mac')[0].innerHTML = apInfo.MAC;
@@ -292,8 +354,8 @@
                             if (wifiOK) {
                                 $('#wifi_ssid')[0].innerHTML = wifiInfo.SSID;
                                 $('#wifi_pass')[0].innerHTML = wifiInfo.PASS;
-                                $('#wifi_hostname')[0].innerHTML = wifiInfo.Hostname;
                                 $('#wifi_networkid')[0].innerHTML = wifiInfo.NetworkID;
+                                $('#wifi_hostname')[0].innerHTML = wifiInfo.Hostname;
                                 $('#wifi_address')[0].innerHTML = wifiInfo.Address;
                                 $('#wifi_gateway')[0].innerHTML = wifiInfo.Gateway;
                                 $('#wifi_subnet')[0].innerHTML = wifiInfo.Subnet;
@@ -433,7 +495,7 @@
             return false;
         });
 
-        $('#smartButton').on('click', function (e) {
+        $('#smartModalForm').submit(function () {
             $.ajax({
                 url: '/smart',
                 type: 'POST',
@@ -443,7 +505,7 @@
             });
         });
 
-        $('#clearButton').on('click', function (e) {
+        $('#clearModalForm').submit(function () {
             $.ajax({
                 url: '/clear',
                 type: 'POST',
@@ -451,9 +513,11 @@
                     console.log('clearing settings OK');
                 }
             });
+            $('#clearModalForm').modal('hide');
+            return false;
         });
 
-        $('#rebootButton').on('click', function (e) {
+        $('#rebootModalForm').submit(function () {
             $.ajax({
                 url: '/reboot',
                 type: 'POST',
@@ -461,6 +525,8 @@
                     console.log('rebot request OK');
                 }
             });
+            $('#rebootModalForm').modal('hide');
+            return false;
         });
     </script>
 </body>

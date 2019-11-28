@@ -229,8 +229,6 @@ void setup()
 	Serial.print("Creating access point named: ");
 	Serial.println(settings.ApSettings.SSID);
 
-	WiFi.softAPsetHostname(settings.ApSettings.Hostname.c_str());
-
 	if (settings.ApSettings.Custom)
 	{
 		IPAddress address;
@@ -259,6 +257,7 @@ void setup()
 
 	if (apOK)
 	{
+		WiFi.softAPsetHostname(settings.ApSettings.Hostname.c_str());
 		ApInfoClass info(WiFi);
 		info.print();
 	}
