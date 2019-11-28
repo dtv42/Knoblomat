@@ -1,0 +1,108 @@
+﻿<!DOCTYPE html>
+<html lang='en'> 
+<head>
+    <meta charset='utf-8' />
+    <meta name='viewport' content='width=device-width, initial-scale=1.0' />
+    <title>Knoblomat - About</title>
+    <link rel="stylesheet" type="text/css" href="css/bootstrap.min.css">
+    <script src='/js/jquery-3.4.1.min.js'></script>
+    <script src='/js/popper.min.js'></script>
+    <script src='/js/bootstrap.min.js'></script>
+</head>
+ 
+<body>
+    <header>
+        <nav class='navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3'>
+            <div class='container'>
+                <a class='navbar-brand' href='/'>Knoblomat</a>
+                <button class='navbar-toggler' type='button' data-toggle='collapse' data-target='.navbar-collapse' aria-controls='navbarSupportedContent'
+                        aria-expanded='false' aria-label='Toggle navigation'>
+                    <span class='navbar-toggler-icon'></span>
+                </button>
+                <div class='navbar-collapse collapse d-sm-inline-flex flex-sm-row-reverse'>
+                    <ul class='navbar-nav flex-grow-1'>
+                        <li class='nav-item'>
+                            <a class='nav-link text-dark' href='/'>Home</a>
+                        </li>
+                        <li class='nav-item'>
+                            <a class='nav-link active text-dark' href='/help'>Help</a>
+                        </li>
+                        <li class='nav-item'>
+                            <a class='nav-link text-dark' href='/config'>Config</a>
+                        </li>
+                        <li class='nav-item'>
+                            <a class='nav-link text-dark' href='/about'>About</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+    </header>
+    <div class="jumbotron jumbotron-fluid">
+        <div class="container">
+            <h1 class="display-4">As Simple as 1-2-3</h1>
+            After loading the page watch the LEDs getting turned on row by row.
+            Once the startup is finished all LEDs are turned off and the Knoblomat&reg; is ready to play.
+            If no button is hit at any point in the game for more than 15 seconds, the Knoblomat&reg; is reset
+            to the waiting state (all LEDs are turned off).
+
+            <h3>LEDs and Buttons</h3>
+            <div class="row">
+                <div class="col-4">
+                    <img src="/images/picture0.jpg" alt="picture0" />
+                </div>
+                <div class="col-8">
+                    <p>
+                        The Knoblomat&reg; has nine LEDs corresponding to the user selection (bottom row of LEDs), the machine selection (middle row of LEDs) and the game result (top row of LEDs).
+                        Three push buttons (labeled ✊, ✌, and ✋) are used to control the game.
+                    </p>
+                </div>
+            </div>
+
+            <h3>1st Click</h3>
+            <div class="row">
+                <div class="col-4">
+                    <img src="/images/picture1.jpg" alt="picture1" />
+                </div>
+                <div class="col-8">
+                    <p>
+                        The first click (choose any button) indicates that You want to play a game of Rock-Paper-Scissors.
+                        The bottom row of LEDs is turned on.
+                    </p>
+                </div>
+            </div>
+
+            <h3>2nd Click</h3>
+            <div class="row">
+                <div class="col-4">
+                    <img src="/images/picture2.jpg" alt="picture2" />
+                </div>
+                <div class="col-8">
+                    <p>
+                        The second click (again any button works) indicates that You are ready to cast Your selection.
+                        The second row of LEDs is turned on.
+                    </p>
+                </div>
+            </div>
+
+            <h3>3rd Click</h3>
+            <div class="row">
+                <div class="col-4">
+                    <img src="/images/picture3.jpg" alt="picture3" />
+                </div>
+                <div class="col-8">
+                    <p>
+                        The third click (choose Your button) indicates Your choice in the game of Rock-Paper-Scissors.
+                        The top row of LEDs is turned on, and finally the choices (and the result) are displayed.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <footer class='border-top footer text-muted'>
+        <div class='container'>
+            &copy; 2019 - Dr. Peter Trimmel
+        </div>
+    </footer>
+</body>
+</html>

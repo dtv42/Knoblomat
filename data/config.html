@@ -1,0 +1,467 @@
+﻿<!DOCTYPE html>
+<html lang='en'> 
+<head>
+    <meta charset='utf-8' />
+    <meta name='viewport' content='width=device-width, initial-scale=1.0' />
+    <title>Knoblomat - Configuration</title>
+    <link rel="stylesheet" type="text/css" href="css/bootstrap.min.css">
+    <script src='/js/jquery-3.4.1.min.js'></script>
+    <script src='/js/popper.min.js'></script>
+    <script src='/js/bootstrap.min.js'></script>
+    <script src='/js/jquery.inputmask.min.js'></script>
+</head>
+ 
+<body>
+    <header>
+        <nav class='navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3'>
+            <div class='container'>
+                <a class='navbar-brand' href='/'>Knoblomat</a>
+                <button class='navbar-toggler' type='button' data-toggle='collapse' data-target='.navbar-collapse' aria-controls='navbarSupportedContent'
+                        aria-expanded='false' aria-label='Toggle navigation'>
+                    <span class='navbar-toggler-icon'></span>
+                </button>
+                <div class='navbar-collapse collapse d-sm-inline-flex flex-sm-row-reverse'>
+                    <ul class='navbar-nav flex-grow-1'>
+                        <li class='nav-item'>
+                            <a class='nav-link text-dark' href='/'>Home</a>
+                        </li>
+                        <li class='nav-item'>
+                            <a class='nav-link text-dark' href='/help'>Help</a>
+                        </li>
+                        <li class='nav-item'>
+                            <a class='nav-link active text-dark' href='/config'>Config</a>
+                        </li>
+                        <li class='nav-item'>
+                            <a class='nav-link text-dark' href='/about'>About</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+    </header>
+    <div class='jumbotron jumbotron-fluid'>
+        <div class='container'>
+            <h1 class='display-4'>Settings</h1>
+            <h3>Knoblomat&reg; Server Info</h3>
+            <p>The Knoblomat&reg; provides a web interface at:</p>
+    <pre id='serverInfo'>
+    <b>Web Server:</b>
+        Address (AP):   <span id='server_ap_address'>???.???.???.???</span>
+        Address (WiFi): <span id='server_wifi_address'>???.???.???.???</span>
+        Name:           <span id='server_name'>????????????????????????????????</span>
+        Port:           <span id='server_port'>??????</span>
+        URL:            <span id='server_url'>??????</span>
+    </pre>
+            <p></p>
+            <h3>Knoblomat&reg; WiFi Settings</h3>
+            <p>The WiFi access point and the optional WiFi connection data provided by the Knoblomat&reg;.</p>
+    <pre id='apInfo' style='display: none;'>
+    <b>WiFi Access Point:</b>
+        SSID:      <span id='ap_ssid'>????????????????????????????????</span>
+        PASS:      <span id='ap_pass'>????????????????????????????????</span>
+        Hostname:  <span id='ap_hostname'>???.???.???.???</span>
+        NetworkID: <span id='ap_networkid'>???.???.???.???</span>
+        Address:   <span id='ap_address'>???.???.???.???</span>
+        Clients:   <span id='ap_clients'>?</span>
+        MAC:       <span id='ap_mac'>??:??:??:??:??:??</span>
+    </pre>
+    <pre id='wifiInfo' style='display: none;'>
+    <b>WiFi Network:</b>
+        SSID:      <span id='wifi_ssid'>????????????????????????????????</span>
+        PASS:      <span id='wifi_pass'>????????????????????????????????</span>
+        Hostname:  <span id='wifi_hostname'>???.???.???.???</span>
+        NetworkID: <span id='wifi_networkid'>???.???.???.???</span>
+        Address:   <span id='wifi_address'>???.???.???.???</span>
+        Gateway:   <span id='wifi_gateway'>???.???.???.???</span>
+        Subnet:    <span id='wifi_subnet'>???.???.???.???</span>
+        DNS:       <span id='wifi_dns'>???.???.???.???</span>
+        BSSID:     <span id='wifi_bssid'>??:??:??:??:??:??</span>
+        MAC:       <span id='wifi_mac'>??:??:??:??:??:??</span>
+    </pre>
+            <p></p>
+            <h3>WiFi Configuration</h3>
+            <p>Configure the Knoblomat&reg; WiFi access point.</p>
+            <!-- Access Point Configuration -->
+            <button id='apButton' type='button' class='btn btn-secondary' data-toggle='modal' data-target='#apModal'>
+                Access Point Setup
+            </button>
+            <!-- Modal -->
+            <div class='modal fade' id='apModal' tabindex='-1' role='dialog' aria-labelledby='apModalLabel' aria-hidden='true'>
+                <div class='modal-dialog modal-dialog-centered' role='document'>
+                    <div class='modal-content'>
+                        <div class='modal-header'>
+                            <h5 class='modal-title' id='apModalLabel'>Access Point Settings</h5>
+                            <button type='button' class='close' data-dismiss='modal' aria-label='Close'>
+                                <span aria-hidden='true'>&times;</span>
+                            </button>
+                        </div>
+                        <div class='modal-body'>
+                            <form id='apModalForm' role='form' class='was-validated'>
+                                <div class='form-group'>
+                                    <label for='apSSID'>SSID</label>
+                                    <input type='text' class='form-control' id='apSSID' placeholder='Enter AP SSID' name='SSID' required maxlength=32>
+                                    <div class='invalid-feedback'>Not a valid SSID (max. 32 characters).</div>
+                                </div>
+                                <div class='form-group'>
+                                    <label for=''>Passphrase</label>
+                                    <input type='text' class='form-control' id='apPASS' placeholder='Enter AP Passphrase' name='PASS' maxlength=32>
+                                    <div class='invalid-feedback'>Not a valid passphrase (max. 32 characters).</div>
+                                </div>
+                                <div class='form-group form-check'>
+                                    <label class='form-check-label'>
+                                        <input class='form-check-input' type='checkbox' id='apCustom'>Custom Settings
+                                    </label>
+                                </div>
+                                <div id='apCustomInput'>
+                                    <div class='form-group'>
+                                        <label for='apAddress'>Address</label>
+                                        <input type='text' class='form-control' id='apAddress' placeholder='Enter IP Address' name='Address' data-inputmask="'alias': 'ip'">
+                                        <div class='invalid-feedback'>Not a valid IP address.</div>
+                                    </div>
+                                    <div class='form-group'>
+                                        <label for='apGateway'>Gateway</label>
+                                        <input type='text' class='form-control' id='apGateway' placeholder='Enter Gateway' name='Gateway' data-inputmask="'alias': 'ip'">
+                                        <div class='invalid-feedback'>Not a valid IP address.</div>
+                                    </div>
+                                    <div class='form-group'>
+                                        <label for='apSubnet'>Subnet Mask</label>
+                                        <input type='text' class='form-control' id='apSubnet' placeholder='Enter Subnet Mask' name='Subnet' data-inputmask="'alias': 'ip'">
+                                        <div class='invalid-feedback'>Not a valid IP address.</div>
+                                    </div>
+                                </div>
+                                <button type='submit' class='btn btn-default btn-success btn-block'>Update</button>
+                            </form>
+                        </div>
+                        <div class='modal-footer'>
+                            <button type='button' class='btn btn-primary' data-dismiss='modal'>Cancel</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <p></p>
+            <p>Configure the Knoblomat&reg; WiFi network connection (optional).</p>
+            <!-- WiFi Configuration -->
+            <button id='wifiButton' type='button' class='btn btn-secondary' data-toggle='modal' data-target='#wifiModal'>
+                WiFi Station Setup
+            </button>
+            <!-- Modal -->
+            <div class='modal fade' id='wifiModal' tabindex='-1' role='dialog' aria-labelledby='wifiModalLabel' aria-hidden='true'>
+                <div class='modal-dialog modal-dialog-centered' role='document'>
+                    <div class='modal-content'>
+                        <div class='modal-header'>
+                            <h5 class='modal-title' id='wifiModalLabel'>WiFi Settings</h5>
+                            <button type='button' class='close' data-dismiss='modal' aria-label='Close'>
+                                <span aria-hidden='true'>&times;</span>
+                            </button>
+                        </div>
+                        <div class='modal-body'>
+                            <form id='wifiModalForm' role='form'>
+                                <div class='form-group'>
+                                    <label for='wifiSSID'>SSID</label>
+                                    <input type='text' class='form-control' id='wifiSSID' placeholder='Enter AP SSID' name='SSID' required maxlength=32>
+                                </div>
+                                <div class='form-group'>
+                                    <label for='wifiPASS'>Passphrase</label>
+                                    <input type='text' class='form-control' id='wifiPASS' placeholder='Enter AP Passphrase' name='PASS' maxlength=32>
+                                </div>
+                                <div class='form-group form-check'>
+                                    <label class='form-check-label'>
+                                        <input class='form-check-input' type='checkbox' id='wifiDHCP'>DHCP Enabled
+                                    </label>
+                                </div>
+                                <div id='wifiDHCPInput'>
+                                    <div class='form-group'>
+                                        <label for='wifiAddress'>Address</label>
+                                        <input type='text' class='form-control' id='wifiAddress' placeholder='Enter IP Address' name='Address' data-inputmask="'alias': 'ip'">
+                                        <div class='invalid-feedback'>Not a valid IP address.</div>
+                                    </div>
+                                    <div class='form-group'>
+                                        <label for='wifiGateway'>Gateway</label>
+                                        <input type='text' class='form-control' id='apGateway' placeholder='Enter Gateway' name='Gateway' data-inputmask="'alias': 'ip'">
+                                        <div class='invalid-feedback'>Not a valid IP address.</div>
+                                    </div>
+                                    <div class='form-group'>
+                                        <label for='wifiSubnet'>Subnet Mask</label>
+                                        <input type='text' class='form-control' id='wifiSubnet' placeholder='Enter Subnet Mask' name='Subnet' data-inputmask="'alias': 'ip'">
+                                        <div class='invalid-feedback'>Not a valid IP address.</div>
+                                    </div>
+                                    <div class='form-group'>
+                                        <label for='wifiDNS1'>Primary DNS</label>
+                                        <input type='text' class='form-control' id='wifiDNS1' placeholder='Enter Primary DNS' name='DNS1' data-inputmask="'alias': 'ip'">
+                                        <div class='invalid-feedback'>Not a valid IP address.</div>
+                                    </div>
+                                    <div class='form-group'>
+                                        <label for='wifiDNS2'>Secondary DNS</label>
+                                        <input type='text' class='form-control' id='wifiDNS2' placeholder='Enter Secondary DNS' name='DNS2' data-inputmask="'alias': 'ip'">
+                                        <div class='invalid-feedback'>Not a valid IP address.</div>
+                                    </div>
+                                </div>
+                                <button type='submit' class='btn btn-default btn-success btn-block'>Update</button>
+                            </form>
+                        </div>
+                        <div class='modal-footer'>
+                            <button type='button' class='btn btn-primary' data-dismiss='modal'>Cancel</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <p></p>
+            <p>
+                The Knoblomat&reg; uses WiFi Smart Configuration to connect to an existing network.
+                A smartphone and an special app is required:
+                <ul>
+                    <li>
+                        For iOS, this application is available under name '<i>Espressif Esptouch</i>'.</li>
+                    <li>
+                        For Android, an application is available under name '<i>Espressif Esptouch</i>' or '<i>ESP8266 SmartConfig</i>'.
+                    </li>
+                </ul>
+                Note that the resulting WiFi connection uses DHCP.
+            </p>
+            <button id='smartButton' type='button' class='btn btn-success' data-toggle='modal' data-target='#resultsModal'>
+                WiFi Smart Config
+            </button>
+            <p></p>
+            <p>Clear the stored configuration data (after restart the Knoblomat&reg; runs as a default access point only).</p>
+            <button id='clearButton' type='button' class='btn btn-warning' data-toggle='modal' data-target='#resultsModal'>
+                Reset WiFi Config
+            </button>
+            <p></p>
+            <p>Restart the Knoblomat&reg; (reboot).</p>
+            <button id='rebootButton' type='button' class='btn btn-danger' data-toggle='modal' data-target='#resultsModal'>
+                Reboot Knoblomat&reg;
+            </button>
+        </div>
+    </div>
+    <footer class='border-top footer text-muted'>
+        <div class='container'>
+            &copy; 2019 - Dr. Peter Trimmel
+        </div>
+    </footer>
+
+    <script type='text/javascript'>
+        var settings;   // Complete settings
+        var apInfo;     // WiFi accesspoint info
+        var apOK;       // WiFi accesspoint OK
+        var wifiInfo;   // WiFi connection info
+        var wifiOK;     // WiFi connection OK
+        var serverInfo; // Server info
+
+        function init() {
+            $.getJSON('/settings', function (data) {
+                console.log(data);
+                settings = data;
+            }).always(function () {
+                apOK = false;
+                $.getJSON('/ap', function (data) {
+                    console.log(data);
+                    apInfo = data;
+                    apOK = true;
+                }).always(function () {
+                    wifiOK = false;
+                    $.getJSON('/wifi', function (data) {
+                        console.log(data);
+                        wifiInfo = data;
+                        wifiOK = true;
+                    }).always(function () {
+                        $.getJSON('/server', function (data) {
+                            console.log(data);
+                            serverInfo = data;
+                        }).always(function () {
+                            $('#server_ap_address')[0].innerHTML = serverInfo.ApAddress;
+                            $('#server_wifi_address')[0].innerHTML = serverInfo.WiFiAddress;
+                            $('#server_name')[0].innerHTML = serverInfo.Name;
+                            $('#server_port')[0].innerHTML = serverInfo.Port;
+                            $('#server_url')[0].innerHTML = serverInfo.Url;
+
+                            if (apOK) {
+                                $('#ap_ssid')[0].innerHTML = apInfo.SSID;
+                                $('#ap_pass')[0].innerHTML = apInfo.PASS;
+                                $('#ap_hostname')[0].innerHTML = apInfo.Hostname;
+                                $('#ap_networkid')[0].innerHTML = apInfo.NetworkID;
+                                $('#ap_address')[0].innerHTML = apInfo.Address;
+                                $('#ap_clients')[0].innerHTML = apInfo.Clients;
+                                $('#ap_mac')[0].innerHTML = apInfo.MAC;
+
+                                $('#apInfo').show();
+                            }
+                            else {
+                                $('#apInfo').hide();
+                            }
+
+                            if (wifiOK) {
+                                $('#wifi_ssid')[0].innerHTML = wifiInfo.SSID;
+                                $('#wifi_pass')[0].innerHTML = wifiInfo.PASS;
+                                $('#wifi_hostname')[0].innerHTML = wifiInfo.Hostname;
+                                $('#wifi_networkid')[0].innerHTML = wifiInfo.NetworkID;
+                                $('#wifi_address')[0].innerHTML = wifiInfo.Address;
+                                $('#wifi_gateway')[0].innerHTML = wifiInfo.Gateway;
+                                $('#wifi_subnet')[0].innerHTML = wifiInfo.Subnet;
+                                $('#wifi_dns')[0].innerHTML = wifiInfo.DNS;
+                                $('#wifi_bssid')[0].innerHTML = wifiInfo.BSSID;
+                                $('#wifi_mac')[0].innerHTML = wifiInfo.MAC;
+
+                                $('#wifiInfo').show();
+                            }
+                            else {
+                                $('#wifiInfo').hide();
+                            }
+                        });
+                    });
+                });
+            });
+        }
+
+        // Get all settings data and update the displayed fields.
+        $(function () {
+            init();
+        });
+
+        // Initialize settings and all masked fields.
+        $(document).ready(function () {
+            $(':input').inputmask();
+        });
+
+        // Preset the form inputs with access point settings data.
+        $('#apButton').click(function () {
+            $('#apSSID').val(settings.ApSettings.SSID),
+                $('#apPASS').val(settings.ApSettings.PASS),
+                $('#apCustom')[0].checked = settings.ApSettings.Custom,
+                $('#apAddress').val(settings.ApSettings.Address),
+                $('#apGateway').val(settings.ApSettings.Gateway),
+                $('#apSubnet').val(settings.ApSettings.Subnet),
+                $('#apModal').modal({ show: true });
+
+            if (settings.ApSettings.Custom) {
+                $('#apCustomInput').show();
+            }
+            else {
+                $('#apCustomInput').hide();
+            }
+        });
+
+        // Update the form display
+        $('#apCustom').change(function () {
+            if ($('#apCustom')[0].checked) {
+                $('#apCustomInput').show();
+            }
+            else {
+                $('#apCustomInput').hide();
+            }
+        });
+
+        // Submit the access point settings data.
+        $('#apModalForm').submit(function () {
+            $.ajax({
+                url: '/ap',
+                type: 'POST',
+                data: JSON.stringify({
+                    SSID: $('#apSSID').val(),
+                    PASS: $('#apPASS').val(),
+                    Custom: $('#apCustom')[0].checked,
+                    Address: $('#apAddress').val(),
+                    Gateway: $('#apGateway').val(),
+                    Subnet: $('#apSubnet').val()
+                }),
+                contentType: 'application/json; charset=utf-8',
+                success: function (data) {
+                    console.log('setting access point data OK');
+                    console.log(data);
+                    settings = data;
+                    init();
+                }
+            });
+            $('#apModal').modal('hide');
+            return false;
+        });
+
+        // Preset the form inputs with wifi settings data.
+        $('#wifiButton').click(function () {
+            $('#wifiSSID').val(settings.WiFiSettings.SSID),
+                $('#wifiPASS').val(settings.WiFiSettings.PASS),
+                $('#wifiDHCP')[0].checked = settings.WiFiSettings.DHCP,
+                $('#wifiAddress').val(settings.WiFiSettings.Address),
+                $('#wifiGateway').val(settings.WiFiSettings.Gateway),
+                $('#wifiSubnet').val(settings.WiFiSettings.Subnet),
+                $('#wifiDNS1').val(settings.WiFiSettings.DNS1),
+                $('#wifiDNS2').val(settings.WiFiSettings.DNS2),
+                $('#wifiModal').modal({ show: true });
+
+            if (settings.WiFiSettings.DHCP) {
+                $('#wifiDHCPInput').hide();
+            }
+            else {
+                $('#wifiDHCPInput').show();
+            }
+        });
+
+        // Update the form display
+        $('#wifiDHCP').change(function () {
+            if ($('#wifiDHCP')[0].checked) {
+                $('#wifiDHCPInput').hide();
+            }
+            else {
+                $('#wifiDHCPInput').show();
+            }
+        });
+
+        // Submit the wifi settings data.
+        $('#wifiModalForm').submit(function () {
+            $.ajax({
+                url: '/wifi',
+                type: 'POST',
+                data: JSON.stringify({
+                    SSID: $('#wifiSSID').val(),
+                    PASS: $('#wifiPASS').val(),
+                    DHCP: $('#wifiDHCP')[0].checked,
+                    Address: $('#wifiAddress').val(),
+                    Gateway: $('#wifiGateway').val(),
+                    Subnet: $('#wifiSubnet').val(),
+                    DNS1: $('#wifiDNS1').val(),
+                    DNS2: $('#wifiDNS2').val()
+                }),
+                contentType: 'application/json; charset=utf-8',
+                dataType: 'json',
+                success: function (data) {
+                    console.log('setting wifi data OK');
+                    console.log(data);
+                    settings = data;
+                    init();
+                }
+            });
+            $('#wifiModal').modal('hide');
+            return false;
+        });
+
+        $('#smartButton').on('click', function (e) {
+            $.ajax({
+                url: '/smart',
+                type: 'POST',
+                success: function () {
+                    console.log('requesting smart config OK');
+                }
+            });
+        });
+
+        $('#clearButton').on('click', function (e) {
+            $.ajax({
+                url: '/clear',
+                type: 'POST',
+                success: function () {
+                    console.log('clearing settings OK');
+                }
+            });
+        });
+
+        $('#rebootButton').on('click', function (e) {
+            $.ajax({
+                url: '/reboot',
+                type: 'POST',
+                success: function () {
+                    console.log('rebot request OK');
+                }
+            });
+        });
+    </script>
+</body>
+</html>
