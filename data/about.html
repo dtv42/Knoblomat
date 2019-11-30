@@ -10,49 +10,67 @@
     <script src='/js/bootstrap.min.js'></script>
 </head>
  
-    <body>
-        <header>
-            <nav class='navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3'>
-                <div class='container'>
-                    <a class='navbar-brand' href='/'>Knoblomat</a>
-                    <button class='navbar-toggler' type='button' data-toggle='collapse' data-target='.navbar-collapse' aria-controls='navbarSupportedContent'
-                            aria-expanded='false' aria-label='Toggle navigation'>
-                        <span class='navbar-toggler-icon'></span>
-                    </button>
-                    <div class='navbar-collapse collapse d-sm-inline-flex flex-sm-row-reverse'>
-                        <ul class='navbar-nav flex-grow-1'>
-                            <li class='nav-item'>
-                                <a class='nav-link text-dark' href='/'>Home</a>
-                            </li>
-                            <li class='nav-item'>
-                                <a class='nav-link text-dark' href='/help'>Help</a>
-                            </li>
-                            <li class='nav-item'>
-                                <a class='nav-link text-dark' href='/config'>Config</a>
-                            </li>
-                            <li class='nav-item'>
-                                <a class='nav-link active text-dark' href='/about'>About</a>
-                            </li>
-                        </ul>
-                    </div>
+<body>
+    <header>
+        <nav class='navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3'>
+            <div class='container'>
+                <a class='navbar-brand' href='/'>Knoblomat</a>
+                <button class='navbar-toggler' type='button' data-toggle='collapse' data-target='.navbar-collapse' aria-controls='navbarSupportedContent'
+                        aria-expanded='false' aria-label='Toggle navigation'>
+                    <span class='navbar-toggler-icon'></span>
+                </button>
+                <div class='navbar-collapse collapse d-sm-inline-flex flex-sm-row-reverse'>
+                    <ul class='navbar-nav flex-grow-1'>
+                        <li class='nav-item'>
+                            <a class='nav-link text-dark' href='/'>Home</a>
+                        </li>
+                        <li class='nav-item'>
+                            <a class='nav-link text-dark' href='/help'>Help</a>
+                        </li>
+                        <li class='nav-item'>
+                            <a class='nav-link text-dark' href='/config'>Config</a>
+                        </li>
+                        <li class='nav-item'>
+                            <a class='nav-link active text-dark' href='/about'>About</a>
+                        </li>
+                    </ul>
                 </div>
-            </nav>
-        </header>
-        <div class="jumbotron jumbotron-fluid">
-            <div class="container">
-                <h1 class="display-4">About</h1>
+            </div>
+        </nav>
+    </header>
+    <div class="jumbotron jumbotron-fluid">
+        <div class="container">
+            <h1 class="display-4">About</h1>
 
-                <h3>Who we are</h3>
-                <p>DTV-Online brings all the fun in a wide set of innovative products. Established in the 1970s we have designed and manufactured famous devices such as</p>
-                <ul>
-                    <li>The Electric Hammer</li>
-                    <li>The Email Opener</li>
-                    <li>The Millennium PC</li>
-                    <li>The Dinosaur Detector</li>
-                </ul>
-                <p>and many more.</p>
+            <h3>Knoblomat (5th generation)</h3>
+            <p>Running on an ESP32 microcontroller</p>
+    <pre id='serverInfo'>
+    <b>System Info:</b>
+        Chip Revision:          <span id='system_revision'>?</span>
+        Sdk Version:            <span id='system_version'>?</span>
+        Cpu Frequency (MHz):    <span id='system_frequency'>?</span>
+        Flash Chip Speed (MHz): <span id='system_flash_speed'>?</span>
+        Flash Chip Size (kB):   <span id='system_flash_size'>?</span>
+        Heap Size (kB):         <span id='system_heap_size'>?</span>
+        Free Heap (kB):         <span id='system_heap_free'>?</span>
+        Sketch Size (kB):       <span id='system_sketch_size'>?</span>
+        Free Sketch Space (kB): <span id='system_sketch_space'>?</span>
+        Sketch MD5 Checksum:    <span id='system_sketch_md5'>????????????????????????????????</span>		
+        ChipID (MAC Address):   <span id='system_chipid'>?</span>
+        Software Version:       <span id='system_software'>?</span>
+    </pre>
+            <p></p>
+            <h3>Who we are</h3>
+            <p>DTV-Online brings all the fun in a wide set of innovative products. Established in the 1970s we have designed and manufactured famous devices such as</p>
+            <ul>
+                <li>The Electric Hammer</li>
+                <li>The Email Opener</li>
+                <li>The Millennium PC</li>
+                <li>The Dinosaur Detector</li>
+            </ul>
+            <p>and many more.</p>
 
-                <h3>Contact Us</h3>
+            <h3>Contact Us</h3>
 <pre>
     Grabenweg 4
     3683 Yspertal
@@ -60,13 +78,35 @@
     Email: peter.trimmel@live.com
     Web: dtv-online.net
 </pre>
-            </div>
         </div>
-        <footer class='border-top footer text-muted'>
-            <div class='container'>
-                &copy; 2019 - Dr. Peter Trimmel
-            </div>
-        </footer>
+    </div>
+    <footer class='border-top footer text-muted'>
+        <div class='container'>
+            &copy; 2019 - Dr. Peter Trimmel
+        </div>
+    </footer>
 
-    </body>
-</html>
+    <script type='text/javascript'>
+
+        // Initialize all info fields.
+        $(document).ready(function () {
+            $.getJSON('/system', function (data) {
+                console.log(data);
+
+                $('#system_revision')[0].innerHTML = data.ChipRevision;
+                $('#system_version')[0].innerHTML = data.SdkVersion;
+                $('#system_frequency')[0].innerHTML = data.CpuFreqMHz;
+                $('#system_flash_speed')[0].innerHTML = data.FlashChipSpeed;
+                $('#system_flash_size')[0].innerHTML = data.FlashChipSize;
+                $('#system_heap_size')[0].innerHTML = data.HeapSize;
+                $('#system_heap_free')[0].innerHTML = data.FreeHeap;
+                $('#system_sketch_size')[0].innerHTML = data.SketchSize;
+                $('#system_sketch_space')[0].innerHTML = data.FreeSketchSpace;
+                $('#system_sketch_md5')[0].innerHTML = data.SketchMD5;
+                $('#system_chipid')[0].innerHTML = data.ChipID;
+                $('#system_software')[0].innerHTML = data.Software;
+            });
+        });
+    </script>
+</body>
+</html >

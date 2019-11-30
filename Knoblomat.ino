@@ -9,25 +9,32 @@
 #include <ArduinoJson.hpp>
 #include <ArduinoJson.h>
 #include <WiFi.h>
+#include <NetBIOS.h>
 #include <ESPmDNS.h>
 #include <SPIFFS.h>
 #include <jled.h>
 #include <StringArray.h>
-#include <SPIFFSEditor.h>
 #include <ESPAsyncWebServer.h>
 #include <Preferences.h>
+#include <esp_log.h>
 #include <esp_wifi.h>
 #include <nvs_flash.h>
 
 #include "include/Settings.h"
 #include "include/ApInfo.h"
 #include "include/WiFiInfo.h"
+#include "include/ApSettings.h"
 #include "include/ServerInfo.h"
+#include "include/SystemInfo.h"
+
+char* SystemInfoClass::SOFTWARE_VERSION = "V1.2.2 2019-11-30";
 
 // Message lines to be printed on the serial line during startup.
 auto HEADER = "KNOBLOMAT - a DTV classic since the 1970s";
 auto COPYRIGHT = "Copyright (c) 2019 - Dr. Peter Trimmel";
-auto VERSION = "V1.1.4 2019-11-28 10:48:00 Author: dtv";
+
+// Interval to check WiFi connection.
+auto CHECKWIFI_INTERVAL = 60000;
 
 // On board LED.
 JLed led = JLed(LED_BUILTIN).Breathe(1000).DelayAfter(1000).Forever();
@@ -37,6 +44,9 @@ SettingsClass settings;
 
 // Create Webserver at the default port.
 AsyncWebServer server(ServerInfoClass::PORT);
+
+// Elapsed time in milliseconds when to check WiFi connection.
+unsigned long check = CHECKWIFI_INTERVAL;
 
 // Reboot counter for a 5 seconds reboot delay.
 int rebootcounter = 50;
@@ -87,6 +97,9 @@ void setup()
 		err = nvs_flash_init();
 	}
 
+	// Set the log level for WiFi to WARNING
+	esp_log_level_set("wifi", ESP_LOG_WARN);
+
 	// Initialize serial and wait 1 second for port to open.
 	Serial.begin(115200);
 	delay(1000);
@@ -94,8 +107,11 @@ void setup()
 	// Print application startup info.
 	Serial.println(HEADER);
 	Serial.println(COPYRIGHT);
-	Serial.println(VERSION);
 	Serial.println();
+
+	// Print system info.
+	SystemInfoClass info;
+	info.print();
 
 	// Initialize and print the settings.
 	settings.init();
@@ -229,6 +245,12 @@ void setup()
 	Serial.print("Creating access point named: ");
 	Serial.println(settings.ApSettings.SSID);
 
+	// Check if the default SSID has been set (using the chip ID - MAC address).
+	if (settings.ApSettings.SSID == ApSettingsClass::WIFI_SSID_AP) {
+		settings.ApSettings.SSID = ApSettingsClass::WIFI_SSID_AP + info.ChipID;
+		settings.ApSettings.save();
+	}
+
 	if (settings.ApSettings.Custom)
 	{
 		IPAddress address;
@@ -268,6 +290,9 @@ void setup()
 
 	if (wifiOK || apOK)
 	{
+		// Setup NetBIOS name service
+		NBNS.begin("ServerInfoClass::HOSTNAME");
+
 		// Set up mDNS responder
 		if (MDNS.begin(ServerInfoClass::HOSTNAME)) {
 			Serial.println("mDNS responder started");
@@ -338,7 +363,7 @@ void setup()
 			});
 
 		server.on("/about", HTTP_GET, [](AsyncWebServerRequest* request) {
-			Serial.println("GET: /");
+			Serial.println("GET: /about");
 			request->send(SPIFFS, "/about.html", "text/html");
 			});
 
@@ -404,6 +429,12 @@ void setup()
 		server.on("/server", HTTP_GET, [](AsyncWebServerRequest* request) {
 			Serial.println("GET: /server");
 			ServerInfoClass info(WiFi);
+			request->send(200, "application/json", info.serialize());
+			});
+
+		server.on("/system", HTTP_GET, [](AsyncWebServerRequest* request) {
+			Serial.println("GET: /server");
+			SystemInfoClass info;
 			request->send(200, "application/json", info.serialize());
 			});
 
@@ -556,5 +587,14 @@ void loop()
 		{
 			delay(100);
 		}
+	}
+
+	// Check WiFi connection status and if diskonnected try to reconnect.
+	if (wifiOK && (WiFi.status() != WL_CONNECTED) && (millis() > check)) {
+		Serial.println("Reconnecting to WiFi...");
+		WiFi.disconnect();
+		WiFi.begin(settings.WiFiSettings.SSID.c_str(), settings.WiFiSettings.PASS.c_str());
+		connectWiFi();
+		check = millis() + CHECKWIFI_INTERVAL;
 	}
 }

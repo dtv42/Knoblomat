@@ -11,6 +11,10 @@
 #include <ArduinoJson.h>
 
 #include "ApSettings.h"
+#include "SystemInfo.h"
+
+char* ApSettingsClass::WIFI_SSID_AP = "KNOBLOMAT_";	// The default access point SSID
+char* ApSettingsClass::WIFI_HOSTNAME = "knoblomat";	// The default access point hostname
 
 /// <summary>
 /// Initializes selected data fields to default values.

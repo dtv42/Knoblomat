@@ -102,4 +102,4 @@ It is based on the ESP32 microcontroller that boasts Wifi, Bluetooth, Ethernet a
 An Arduino compatible project implements all the code running on the board.
 A async web server is used to provide a web based interface to the application.
 The actual user interface is implemented using Bootstrap, jQuery and Javascript.
-
+               

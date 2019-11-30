@@ -374,12 +374,12 @@
             });
         }
 
-        // Get all settings data and update the displayed fields.
+        // Get all settings data, and update the displayed fields.
         $(function () {
             init();
         });
 
-        // Initialize settings and all masked fields.
+        // Initialize all masked fields.
         $(document).ready(function () {
             $(':input').inputmask();
         });
@@ -503,6 +503,8 @@
                     console.log('requesting smart config OK');
                 }
             });
+            $('#smartModal').modal('hide');
+            return false;
         });
 
         $('#clearModalForm').submit(function () {
@@ -513,7 +515,7 @@
                     console.log('clearing settings OK');
                 }
             });
-            $('#clearModalForm').modal('hide');
+            $('#clearModal').modal('hide');
             return false;
         });
 
@@ -525,7 +527,7 @@
                     console.log('rebot request OK');
                 }
             });
-            $('#rebootModalForm').modal('hide');
+            $('#rebootModal').modal('hide');
             return false;
         });
     </script>

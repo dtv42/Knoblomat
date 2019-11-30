@@ -32,8 +32,6 @@ private:
 	const char* KEY_GATEWAY = "Gateway";		// The preference key for the Gateway field
 	const char* KEY_SUBNET = "Subnet";			// The preference key for the SubnetMask field
 
-	const char* WIFI_SSID_AP = "KNOBLOMAT_AP";	// The default access point SSID
-	const char* WIFI_HOSTNAME = "knoblomat";	// The default access point hostname
 	const char* SUBNET_MASK = "255.255.255.0";	// The default network mask
 
 	const int MAX_SSID_LEN = 32;				// The maximum length for the SSID
@@ -44,6 +42,9 @@ private:
 	Preferences preferences;					// The EPS32 preferences instance
 
 public:
+	static char* WIFI_SSID_AP;					// The default access point SSID
+	static char* WIFI_HOSTNAME;					// The default access point hostname
+
 	ApSettingsClass();
 
 	String SSID;								// The WiFi Access Point SSID
