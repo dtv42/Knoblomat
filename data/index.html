@@ -27,13 +27,13 @@
                             <a class='nav-link text-dark' href='/'>Home</a>
                         </li>
                         <li class='nav-item'>
-                            <a class='nav-link text-dark' href='/help'>Help</a>
+                            <a class='nav-link text-dark' href='/help.html'>Help</a>
                         </li>
                         <li class='nav-item'>
-                            <a class='nav-link text-dark' href='/config'>Config</a>
+                            <a class='nav-link text-dark' href='/config.html'>Config</a>
                         </li>
                         <li class='nav-item'>
-                            <a class='nav-link text-dark' href='/about'>About</a>
+                            <a class='nav-link text-dark' href='/about.html'>About</a>
                         </li>
                     </ul>
                 </div>
@@ -43,7 +43,7 @@
     <div class="jumbotron jumbotron-fluid">
         <div class="container">
             <h1 class="display-4">
-                Knoblomat&reg;
+                Knoblomat
                 <button id="button0" type="button" class="btn btn-outline-dark" data-toggle="modal" data-target="#resultsModal">
                     Show Results?
                 </button>
@@ -112,6 +112,25 @@
                     <div id="alert" class="alert" />
                 </div>
             </div>
+            <!-- Modal -->
+            <div class="modal fade" id="startupModal" tabindex="-1" role="dialog" aria-labelledby="startupModalLabel" aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="startupModalLabel">Knoblomat</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div id="results" class="modal-body">
+                            Welcome to the 5<sup>th</sup> generation Knoblomat...
+                        </div>
+                        <div class="modal-footer">
+                            <button id="startup" type="button" class="btn btn-secondary" data-dismiss="modal">OK</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
     <footer class='border-top footer text-muted'>
@@ -122,6 +141,7 @@
 
     <script type='text/javascript'>
         // The audio elements (button click, results)
+        var audioStartup = document.createElement('audio');
         var audioClick = document.createElement('audio');
         var audioWin = document.createElement('audio');
         var audioTie = document.createElement('audio');
@@ -293,11 +313,12 @@
         }
 
         var fsm = new StateMachine({
-            init: 'startup',
+            init: 'setup',
             transitions: [
                 { name: 'timeout', from: 'init', to: 'waiting' },
                 { name: 'timeout', from: 'ready', to: 'waiting' },
                 { name: 'timeout', from: 'done', to: 'waiting' },
+                { name: 'advance', from: 'setup', to: 'startup' },
                 { name: 'advance', from: 'startup', to: 'waiting' },
                 { name: 'advance', from: 'waiting', to: 'init' },
                 { name: 'advance', from: 'init', to: 'ready' },
@@ -314,9 +335,13 @@
                         handle = null;
                     }
                 },
+                onEnterSetup: function () {
+                    console.log('enter setup');
+                    $('#startupModal').modal('show');
+                },
                 onEnterStartup: function () {
                     console.log('enter startup');
-
+                    audioStartup.play();
                     handle = setTimeout(() => row1(), 1000);
                     handle = setTimeout(() => row2(), 2000);
                     handle = setTimeout(() => row3(), 3000);
@@ -359,13 +384,18 @@
 
         function reset() {
             $.ajax({
-                url : "/reset",
+                url: "/reset",
                 type: "POST",
-                success: function() {
+                success: function () {
                     console.log("resetting timer OK");
                 }
             });
         }
+
+        $('#startup').on('click', function (e) {
+            fsm.advance();
+        });
+
         $('#button0').on('click', function (e) {
             $('#results').text("The total score is: " + wins + ":" + losses + " (" + ties + " ties)");
         });
@@ -393,12 +423,12 @@
 
         $('#save').on('click', function (e) {
             $.ajax({
-                url : "/game",
+                url: "/game",
                 type: "POST",
                 data: JSON.stringify({ Ties: ties, Wins: wins, Losses: losses }),
                 contentType: "application/json; charset=utf-8",
                 dataType: "json",
-                success: function() {
+                success: function () {
                     console.log("setting game data OK");
                 }
             });
@@ -412,7 +442,7 @@
             $('#serverModal').modal('hide');
         });
 
-        $(function() {
+        $(function () {
             $.getJSON('/game', function (data) {
                 console.log(data);
                 ties = data.Ties;
@@ -426,11 +456,12 @@
                 scrollTop: $('#knoblomat').offset().top
             }, 'slow');
             var audioElement = document.createElement('audio');
+            audioStartup.setAttribute('src', '/sounds/vista.mp3');
             audioClick.setAttribute('src', '/sounds/click.mp3');
             audioWin.setAttribute('src', '/sounds/win.mp3');
             audioTie.setAttribute('src', '/sounds/tie.mp3');
             audioLoss.setAttribute('src', '/sounds/loss.mp3');
-        });  
+        });
 
     </script>
 </body>
