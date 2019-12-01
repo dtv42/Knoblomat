@@ -121,6 +121,12 @@
     </footer>
 
     <script type='text/javascript'>
+        // The audio elements (button click, results)
+        var audioClick = document.createElement('audio');
+        var audioWin = document.createElement('audio');
+        var audioTie = document.createElement('audio');
+        var audioLoss = document.createElement('audio');
+
         // The user selection value.
         var selection = 0;
 
@@ -266,16 +272,19 @@
 
             if (result == 1) {
                 message += "You won!";
+                audioWin.play();
                 showSuccess(message);
                 ++wins;
             }
             else if (result == 0) {
                 message += "It's a tie!";
+                audioTie.play();
                 showWarning(message);
                 ++ties;
             }
             else if (result == -1) {
                 message += "You lost!";
+                audioLoss.play();
                 showDanger(message);
                 ++losses;
             }
@@ -348,23 +357,38 @@
             fsm.timeout();
         }
 
+        function reset() {
+            $.ajax({
+                url : "/reset",
+                type: "POST",
+                success: function() {
+                    console.log("resetting timer OK");
+                }
+            });
+        }
         $('#button0').on('click', function (e) {
             $('#results').text("The total score is: " + wins + ":" + losses + " (" + ties + " ties)");
         });
 
         $('#button1').on('click', function (e) {
+            audioClick.play();
             selection = 1;
             fsm.advance();
+            reset();
         });
 
         $('#button2').on('click', function (e) {
+            audioClick.play();
             selection = 2;
             fsm.advance();
+            reset();
         });
 
         $('#button3').on('click', function (e) {
+            audioClick.play();
             selection = 3;
             fsm.advance();
+            reset();
         });
 
         $('#save').on('click', function (e) {
@@ -401,6 +425,11 @@
             $('html, body').animate({
                 scrollTop: $('#knoblomat').offset().top
             }, 'slow');
+            var audioElement = document.createElement('audio');
+            audioClick.setAttribute('src', '/sounds/click.mp3');
+            audioWin.setAttribute('src', '/sounds/win.mp3');
+            audioTie.setAttribute('src', '/sounds/tie.mp3');
+            audioLoss.setAttribute('src', '/sounds/loss.mp3');
         });  
 
     </script>

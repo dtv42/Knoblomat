@@ -352,6 +352,62 @@ void checkTimer(void)
 }
 
 /// <summary>
+/// 
+/// </summary>
+/// <param name="event"></param>
+/// <param name="info"></param>
+void WiFiStationConnected(WiFiEvent_t event, WiFiEventInfo_t info)
+{
+
+	Serial.println("Station connected");
+
+	for (int i = 0; i < 6; i++) {
+
+		Serial.printf("%02X", info.sta_connected.mac[i]);
+		if (i < 5)Serial.print(":");
+	}
+
+	Serial.println("\n------------");
+}
+
+/// <summary>
+/// 
+/// </summary>
+/// <param name="event"></param>
+/// <param name="info"></param>
+void WiFiStationDisconnected(WiFiEvent_t event, WiFiEventInfo_t info)
+{
+
+	Serial.println("Station disconnected");
+
+	for (int i = 0; i < 6; i++) {
+
+		Serial.printf("%02X", info.sta_disconnected.mac[i]);
+		if (i < 5)Serial.print(":");
+	}
+
+	Serial.println("\n------------");
+}
+
+/// <summary>
+/// 
+/// </summary>
+/// <param name="event"></param>
+/// <param name="info"></param>
+void WiFiStationLostIP(WiFiEvent_t event, WiFiEventInfo_t info)
+{
+	Serial.println("Station lost IP");
+	Serial.println("\n------------");
+	ESP.restart();
+}
+
+void WiFiStopped(WiFiEvent_t event, WiFiEventInfo_t info)
+{
+	Serial.println("AP stopped");
+	Serial.println("\n------------");
+}
+
+/// <summary>
 ///  This is run only once after startup.
 /// </summary>
 void setup()
@@ -393,6 +449,14 @@ void setup()
 		Serial.println("An Error has occurred while mounting SPIFFS");
 		return;
 	}
+
+	// Set the connection handler
+	WiFi.onEvent(WiFiStationConnected, SYSTEM_EVENT_AP_STACONNECTED);
+	WiFi.onEvent(WiFiStationDisconnected, SYSTEM_EVENT_AP_STADISCONNECTED);
+	WiFi.onEvent(WiFiStationConnected, SYSTEM_EVENT_STA_CONNECTED);
+	WiFi.onEvent(WiFiStationDisconnected, SYSTEM_EVENT_STA_DISCONNECTED);
+	WiFi.onEvent(WiFiStationLostIP, SYSTEM_EVENT_STA_LOST_IP);
+	WiFi.onEvent(WiFiStopped, SYSTEM_EVENT_AP_STOP);
 
 	// Set the WiFi mode (allowing access point and station mode).
 	WiFi.mode(WIFI_AP_STA);
@@ -531,6 +595,30 @@ void setup()
 			timer.reset();
 			});
 
+		server.on("/sounds/click.mp3", HTTP_GET, [](AsyncWebServerRequest* request) {
+			Serial.println("GET: /sounds/click.mp3");
+			request->send(SPIFFS, "/sounds/click.mp3", "audio/mpeg");
+			timer.reset();
+			});
+
+		server.on("/sounds/win.mp3", HTTP_GET, [](AsyncWebServerRequest* request) {
+			Serial.println("GET: /sounds/win.mp3");
+			request->send(SPIFFS, "/sounds/win.mp3", "audio/mpeg");
+			timer.reset();
+			});
+
+		server.on("/sounds/tie.mp3", HTTP_GET, [](AsyncWebServerRequest* request) {
+			Serial.println("GET: /sounds/tie.mp3");
+			request->send(SPIFFS, "/sounds/tie.mp3", "audio/mpeg");
+			timer.reset();
+			});
+
+		server.on("/sounds/loss.mp3", HTTP_GET, [](AsyncWebServerRequest* request) {
+			Serial.println("GET: /sounds/loss.mp3");
+			request->send(SPIFFS, "/sounds/loss.mp3", "audio/mpeg");
+			timer.reset();
+			});
+
 		server.on("/ap", HTTP_GET, [](AsyncWebServerRequest* request) {
 			Serial.println("GET: /ap");
 
@@ -596,6 +684,12 @@ void setup()
 			Serial.println("POST: /clear");
 			request->send(202, "text/html", "Knoblomat clearing non volatile storage");
 			settings.clear();
+			timer.reset();
+			});
+
+		server.on("/reset", HTTP_POST, [](AsyncWebServerRequest* request) {
+			Serial.println("POST: /reset");
+			request->send(202, "text/html", "Knoblomat reset timer");
 			timer.reset();
 			});
 
