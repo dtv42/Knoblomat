@@ -18,7 +18,7 @@
 #include <WiFi.h>
 
 /// <summary>
-/// 
+/// This class holds the actual WiFi connection data.
 /// </summary>
 class WiFiInfoClass
 {

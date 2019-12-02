@@ -29,6 +29,7 @@
 #include "include/ServerInfo.h"
 #include "include/SystemInfo.h"
 
+// Set the software version for the SystemInfoClass.
 char* SystemInfoClass::SOFTWARE_VERSION = "V1.2.3 2019-12-01";
 
 // Message lines to be printed on the serial line during startup.
@@ -352,10 +353,10 @@ void checkTimer(void)
 }
 
 /// <summary>
-/// 
+/// WiFi connect event handler. 
 /// </summary>
-/// <param name="event"></param>
-/// <param name="info"></param>
+/// <param name="event">The WiFi event</param>
+/// <param name="info">The WiFi event info</param>
 void WiFiStationConnected(WiFiEvent_t event, WiFiEventInfo_t info)
 {
 
@@ -371,10 +372,10 @@ void WiFiStationConnected(WiFiEvent_t event, WiFiEventInfo_t info)
 }
 
 /// <summary>
-/// 
+/// WiFi disconnect event handler. 
 /// </summary>
-/// <param name="event"></param>
-/// <param name="info"></param>
+/// <param name="event">The WiFi event</param>
+/// <param name="info">The WiFi event info</param>
 void WiFiStationDisconnected(WiFiEvent_t event, WiFiEventInfo_t info)
 {
 
@@ -390,10 +391,10 @@ void WiFiStationDisconnected(WiFiEvent_t event, WiFiEventInfo_t info)
 }
 
 /// <summary>
-/// 
+/// WiFi station lost event handler. 
 /// </summary>
-/// <param name="event"></param>
-/// <param name="info"></param>
+/// <param name="event">The WiFi event</param>
+/// <param name="info">The WiFi event info</param>
 void WiFiStationLostIP(WiFiEvent_t event, WiFiEventInfo_t info)
 {
 	Serial.println("Station lost IP");
@@ -401,6 +402,11 @@ void WiFiStationLostIP(WiFiEvent_t event, WiFiEventInfo_t info)
 	ESP.restart();
 }
 
+/// <summary>
+/// WiFi stopped event handler. 
+/// </summary>
+/// <param name="event">The WiFi event</param>
+/// <param name="info">The WiFi event info</param>
 void WiFiStopped(WiFiEvent_t event, WiFiEventInfo_t info)
 {
 	Serial.println("AP stopped");
@@ -450,7 +456,7 @@ void setup()
 		return;
 	}
 
-	// Set the connection handler
+	// Set the WiFi event handler.
 	WiFi.onEvent(WiFiStationConnected, SYSTEM_EVENT_AP_STACONNECTED);
 	WiFi.onEvent(WiFiStationDisconnected, SYSTEM_EVENT_AP_STADISCONNECTED);
 	WiFi.onEvent(WiFiStationConnected, SYSTEM_EVENT_STA_CONNECTED);

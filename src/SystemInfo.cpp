@@ -14,7 +14,7 @@
 #include "SystemInfo.h"
 
 /// <summary>
-///  Using ESP instance to get the actual data.
+///  Using the global ESP instance to get the actual data.
 /// </summary>
 SystemInfoClass::SystemInfoClass()
 {
@@ -47,7 +47,7 @@ SystemInfoClass::SystemInfoClass()
 }
 
 /// <summary>
-///  Serialize the ApInfoClass instance to a JSON string.
+///  Serialize the SystemInfoClass instance to a JSON string.
 /// </summary>
 /// <returns>The JSON string</returns>
 String SystemInfoClass::serialize()
@@ -75,7 +75,7 @@ String SystemInfoClass::serialize()
 }
 
 /// <summary>
-///  Prints the ApInfoClass instance data on the Serial stream.
+///  Prints the SystemInfoClass instance data on the Serial stream.
 /// </summary>
 void SystemInfoClass::print()
 {

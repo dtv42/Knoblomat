@@ -17,8 +17,8 @@
 
 /// <summary>
 /// This class holds the current system data.
-/// Note that if this class is instanciated before the sketch information 
-/// is available the getSketchXXX() functions crash (abort()).
+/// Note that if this class is instanciated before the sketch information is available 
+/// the getSketchXXX() functions crashes (abort()). So this class has to be instantiated later.
 /// </summary>
 class SystemInfoClass
 {

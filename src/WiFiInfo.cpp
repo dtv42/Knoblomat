@@ -63,7 +63,7 @@ String WiFiInfoClass::serialize()
 }
 
 /// <summary>
-///  Prints the ApInfoClass instance data on the Serial stream.
+///  Prints the WiFiInfoClass instance data on the Serial stream.
 /// </summary>
 void WiFiInfoClass::print()
 {

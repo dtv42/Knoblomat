@@ -18,7 +18,7 @@
 #include <WiFi.h>
 
 /// <summary>
-/// 
+/// This class holds the actual HTTP server settings data.
 /// </summary>
 class ServerInfoClass
 {

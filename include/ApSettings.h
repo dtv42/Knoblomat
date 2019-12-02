@@ -18,7 +18,7 @@
 #include <Preferences.h>
 
 /// <summary>
-/// 
+/// This class holds the WiFi access point configuration data.
 /// </summary>
 class ApSettingsClass
 {

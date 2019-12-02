@@ -18,7 +18,7 @@
 #include <Preferences.h>
 
 /// <summary>
-/// 
+/// This class holds the Knoblomat game result data.
 /// </summary>
 class GameSettingsClass
 {
@@ -31,7 +31,7 @@ private:
 	Preferences preferences;				// The EPS32 preferences instance
 
 public:
-	GameSettingsClass();
+	GameSettingsClass() {}
 
 	int Ties;								// The total number of ties
 	int Wins;								// The total number of wins

@@ -1,139 +1,139 @@
 ﻿<!DOCTYPE html>
-<html lang='en'> 
+<html lang="en"> 
 <head>
-    <meta charset='utf-8' />
-    <meta name='viewport' content='width=device-width, initial-scale=1.0' />
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Knoblomat - Configuration</title>
     <link rel="stylesheet" type="text/css" href="css/bootstrap.min.css">
-    <script src='/js/jquery-3.4.1.min.js'></script>
-    <script src='/js/popper.min.js'></script>
-    <script src='/js/bootstrap.min.js'></script>
-    <script src='/js/jquery.inputmask.min.js'></script>
+    <script src="/js/jquery-3.4.1.min.js"></script>
+    <script src="/js/popper.min.js"></script>
+    <script src="/js/bootstrap.min.js"></script>
+    <script src="/js/jquery.inputmask.min.js"></script>
 </head>
  
 <body>
     <header>
-        <nav class='navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3'>
-            <div class='container'>
-                <a class='navbar-brand' href='/'>Knoblomat</a>
-                <button class='navbar-toggler' type='button' data-toggle='collapse' data-target='.navbar-collapse' aria-controls='navbarSupportedContent'
-                        aria-expanded='false' aria-label='Toggle navigation'>
-                    <span class='navbar-toggler-icon'></span>
+        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
+            <div class="container">
+                <a class="navbar-brand" href="/">Knoblomat</a>
+                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse" aria-controls="navbarSupportedContent"
+                        aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
                 </button>
-                <div class='navbar-collapse collapse d-sm-inline-flex flex-sm-row-reverse'>
-                    <ul class='navbar-nav flex-grow-1'>
-                        <li class='nav-item'>
-                            <a class='nav-link text-dark' href='/'>Home</a>
+                <div class="navbar-collapse collapse d-sm-inline-flex flex-sm-row-reverse">
+                    <ul class="navbar-nav flex-grow-1">
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" href="/">Home</a>
                         </li>
-                        <li class='nav-item'>
-                            <a class='nav-link text-dark' href='/help.html'>Help</a>
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" href="/help.html">Help</a>
                         </li>
-                        <li class='nav-item'>
-                            <a class='nav-link active text-dark' href='/config.html'>Config</a>
+                        <li class="nav-item">
+                            <a class="nav-link active text-dark" href="/config.html">Config</a>
                         </li>
-                        <li class='nav-item'>
-                            <a class='nav-link text-dark' href='/about.html'>About</a>
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" href="/about.html">About</a>
                         </li>
                     </ul>
                 </div>
             </div>
         </nav>
     </header>
-    <div class='jumbotron jumbotron-fluid'>
-        <div class='container'>
-            <h1 class='display-4'>Settings</h1>
+    <div class="jumbotron jumbotron-fluid">
+        <div class="container">
+            <h1 class="display-4">Settings</h1>
             <h3>Knoblomat&reg; Server Info</h3>
             <p>Available at:</p>
-    <pre id='serverInfo'>
+    <pre id="serverInfo">
     <b>Web Server:</b>
-        Address (AP):   <span id='server_ap_address'>???.???.???.???</span>
-        Address (WiFi): <span id='server_wifi_address'>???.???.???.???</span>
-        Hostname:       <span id='server_name'>????????????????????????????????</span>
-        Port:           <span id='server_port'>??????</span>
-        URL:            <span id='server_url'>??????</span>
+        Address (AP):   <span id="server_ap_address">???.???.???.???</span>
+        Address (WiFi): <span id="server_wifi_address">???.???.???.???</span>
+        Hostname:       <span id="server_name">????????????????????????????????</span>
+        Port:           <span id="server_port">??????</span>
+        URL:            <span id="server_url">??????</span>
     </pre>
             <p></p>
             <h3>Knoblomat&reg; WiFi Settings</h3>
             <p>WiFi access point.</p>
-    <pre id='apInfo' style='display: none;'>
+    <pre id="apInfo" style="display: none;">
     <b>WiFi Access Point:</b>
-        SSID:      <span id='ap_ssid'>????????????????????????????????</span>
-        PASS:      <span id='ap_pass'>????????????????????????????????</span>
-        NetworkID: <span id='ap_networkid'>???.???.???.???</span>
-        Hostname:  <span id='ap_hostname'>???.???.???.???</span>
-        Address:   <span id='ap_address'>???.???.???.???</span>
-        Clients:   <span id='ap_clients'>?</span>
-        MAC:       <span id='ap_mac'>??:??:??:??:??:??</span>
+        SSID:      <span id="ap_ssid">????????????????????????????????</span>
+        PASS:      <span id="ap_pass">????????????????????????????????</span>
+        NetworkID: <span id="ap_networkid">???.???.???.???</span>
+        Hostname:  <span id="ap_hostname">???.???.???.???</span>
+        Address:   <span id="ap_address">???.???.???.???</span>
+        Clients:   <span id="ap_clients">?</span>
+        MAC:       <span id="ap_mac">??:??:??:??:??:??</span>
     </pre>
-    <pre id='wifiInfo' style='display: none;'>
+    <pre id="wifiInfo" style="display: none;">
     <b>WiFi Network:</b>
-        SSID:      <span id='wifi_ssid'>????????????????????????????????</span>
-        PASS:      <span id='wifi_pass'>????????????????????????????????</span>
-        NetworkID: <span id='wifi_networkid'>???.???.???.???</span>
-        Hostname:  <span id='wifi_hostname'>???.???.???.???</span>
-        Address:   <span id='wifi_address'>???.???.???.???</span>
-        Gateway:   <span id='wifi_gateway'>???.???.???.???</span>
-        Subnet:    <span id='wifi_subnet'>???.???.???.???</span>
-        DNS:       <span id='wifi_dns'>???.???.???.???</span>
-        BSSID:     <span id='wifi_bssid'>??:??:??:??:??:??</span>
-        MAC:       <span id='wifi_mac'>??:??:??:??:??:??</span>
+        SSID:      <span id="wifi_ssid">????????????????????????????????</span>
+        PASS:      <span id="wifi_pass">????????????????????????????????</span>
+        NetworkID: <span id="wifi_networkid">???.???.???.???</span>
+        Hostname:  <span id="wifi_hostname">???.???.???.???</span>
+        Address:   <span id="wifi_address">???.???.???.???</span>
+        Gateway:   <span id="wifi_gateway">???.???.???.???</span>
+        Subnet:    <span id="wifi_subnet">???.???.???.???</span>
+        DNS:       <span id="wifi_dns">???.???.???.???</span>
+        BSSID:     <span id="wifi_bssid">??:??:??:??:??:??</span>
+        MAC:       <span id="wifi_mac">??:??:??:??:??:??</span>
     </pre>
             <p></p>
             <h3>WiFi Configuration</h3>
             <p>Configure WiFi access point (default).</p>
             <!-- Access Point Configuration -->
-            <button id='apButton' type='button' class='btn btn-secondary' data-toggle='modal' data-target='#apModal'>
+            <button id="apButton" type="button" class="btn btn-secondary" data-toggle="modal" data-target="#apModal">
                 Access Point Setup
             </button>
             <!-- Modal -->
-            <div class='modal fade' id='apModal' tabindex='-1' role='dialog' aria-labelledby='apModalLabel' aria-hidden='true'>
-                <div class='modal-dialog modal-dialog-centered' role='document'>
-                    <div class='modal-content'>
-                        <div class='modal-header'>
-                            <h5 class='modal-title' id='apModalLabel'>Access Point Settings</h5>
-                            <button type='button' class='close' data-dismiss='modal' aria-label='Close'>
-                                <span aria-hidden='true'>&times;</span>
+            <div class="modal fade" id="apModal" tabindex="-1" role="dialog" aria-labelledby="apModalLabel" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="apModalLabel">Access Point Settings</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
                             </button>
                         </div>
-                        <div class='modal-body'>
-                            <form id='apModalForm' role='form' class='was-validated'>
-                                <div class='form-group'>
-                                    <label for='apSSID'>SSID</label>
-                                    <input type='text' class='form-control' id='apSSID' placeholder='Enter AP SSID' name='SSID' required maxlength=32>
-                                    <div class='invalid-feedback'>Not a valid SSID (max. 32 characters).</div>
+                        <div class="modal-body">
+                            <form id="apModalForm" role="form" class="was-validated">
+                                <div class="form-group">
+                                    <label for="apSSID">SSID</label>
+                                    <input type="text" class="form-control" id="apSSID" placeholder="Enter AP SSID" name="SSID" required maxlength=32>
+                                    <div class="invalid-feedback">Not a valid SSID (max. 32 characters).</div>
                                 </div>
-                                <div class='form-group'>
-                                    <label for=''>Passphrase</label>
-                                    <input type='text' class='form-control' id='apPASS' placeholder='Enter AP Passphrase' name='PASS' maxlength=32>
-                                    <div class='invalid-feedback'>Not a valid passphrase (max. 32 characters).</div>
+                                <div class="form-group">
+                                    <label for="">Passphrase</label>
+                                    <input type="text" class="form-control" id="apPASS" placeholder="Enter AP Passphrase" name="PASS" maxlength=32>
+                                    <div class="invalid-feedback">Not a valid passphrase (max. 32 characters).</div>
                                 </div>
-                                <div class='form-group form-check'>
-                                    <label class='form-check-label'>
-                                        <input class='form-check-input' type='checkbox' id='apCustom'>Custom Settings
+                                <div class="form-group form-check">
+                                    <label class="form-check-label">
+                                        <input class="form-check-input" type="checkbox" id="apCustom">Custom Settings
                                     </label>
                                 </div>
-                                <div id='apCustomInput'>
-                                    <div class='form-group'>
-                                        <label for='apAddress'>Address</label>
-                                        <input type='text' class='form-control' id='apAddress' placeholder='Enter IP Address' name='Address' data-inputmask="'alias': 'ip'">
-                                        <div class='invalid-feedback'>Not a valid IP address.</div>
+                                <div id="apCustomInput">
+                                    <div class="form-group">
+                                        <label for="apAddress">Address</label>
+                                        <input type="text" class="form-control" id="apAddress" placeholder="Enter IP Address" name="Address" data-inputmask="'alias': 'ip'">
+                                        <div class="invalid-feedback">Not a valid IP address.</div>
                                     </div>
-                                    <div class='form-group'>
-                                        <label for='apGateway'>Gateway</label>
-                                        <input type='text' class='form-control' id='apGateway' placeholder='Enter Gateway' name='Gateway' data-inputmask="'alias': 'ip'">
-                                        <div class='invalid-feedback'>Not a valid IP address.</div>
+                                    <div class="form-group">
+                                        <label for="apGateway">Gateway</label>
+                                        <input type="text" class="form-control" id="apGateway" placeholder="Enter Gateway" name="Gateway" data-inputmask="'alias': 'ip'">
+                                        <div class="invalid-feedback">Not a valid IP address.</div>
                                     </div>
-                                    <div class='form-group'>
-                                        <label for='apSubnet'>Subnet Mask</label>
-                                        <input type='text' class='form-control' id='apSubnet' placeholder='Enter Subnet Mask' name='Subnet' data-inputmask="'alias': 'ip'">
-                                        <div class='invalid-feedback'>Not a valid IP address.</div>
+                                    <div class="form-group">
+                                        <label for="apSubnet">Subnet Mask</label>
+                                        <input type="text" class="form-control" id="apSubnet" placeholder="Enter Subnet Mask" name="Subnet" data-inputmask="'alias': 'ip'">
+                                        <div class="invalid-feedback">Not a valid IP address.</div>
                                     </div>
                                 </div>
-                                <button type='submit' class='btn btn-default btn-success btn-block'>Update</button>
+                                <button type="submit" class="btn btn-default btn-success btn-block">Update</button>
                             </form>
                         </div>
-                        <div class='modal-footer'>
-                            <button type='button' class='btn btn-primary' data-dismiss='modal'>Cancel</button>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-primary" data-dismiss="modal">Cancel</button>
                         </div>
                     </div>
                 </div>
@@ -141,66 +141,66 @@
             <p></p>
             <p>Configure WiFi network connection.</p>
             <!-- WiFi Configuration -->
-            <button id='wifiButton' type='button' class='btn btn-secondary' data-toggle='modal' data-target='#wifiModal'>
+            <button id="wifiButton" type="button" class="btn btn-secondary" data-toggle="modal" data-target="#wifiModal">
                 WiFi Station Setup
             </button>
             <!-- Modal -->
-            <div class='modal fade' id='wifiModal' tabindex='-1' role='dialog' aria-labelledby='wifiModalLabel' aria-hidden='true'>
-                <div class='modal-dialog modal-dialog-centered' role='document'>
-                    <div class='modal-content'>
-                        <div class='modal-header'>
-                            <h5 class='modal-title' id='wifiModalLabel'>WiFi Settings</h5>
-                            <button type='button' class='close' data-dismiss='modal' aria-label='Close'>
-                                <span aria-hidden='true'>&times;</span>
+            <div class="modal fade" id="wifiModal" tabindex="-1" role="dialog" aria-labelledby="wifiModalLabel" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="wifiModalLabel">WiFi Settings</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
                             </button>
                         </div>
-                        <div class='modal-body'>
-                            <form id='wifiModalForm' role='form'>
-                                <div class='form-group'>
-                                    <label for='wifiSSID'>SSID</label>
-                                    <input type='text' class='form-control' id='wifiSSID' placeholder='Enter AP SSID' name='SSID' required maxlength=32>
+                        <div class="modal-body">
+                            <form id="wifiModalForm" role="form">
+                                <div class="form-group">
+                                    <label for="wifiSSID">SSID</label>
+                                    <input type="text" class="form-control" id="wifiSSID" placeholder="Enter AP SSID" name="SSID" required maxlength=32>
                                 </div>
-                                <div class='form-group'>
-                                    <label for='wifiPASS'>Passphrase</label>
-                                    <input type='text' class='form-control' id='wifiPASS' placeholder='Enter AP Passphrase' name='PASS' maxlength=32>
+                                <div class="form-group">
+                                    <label for="wifiPASS">Passphrase</label>
+                                    <input type="text" class="form-control" id="wifiPASS" placeholder="Enter AP Passphrase" name="PASS" maxlength=32>
                                 </div>
-                                <div class='form-group form-check'>
-                                    <label class='form-check-label'>
-                                        <input class='form-check-input' type='checkbox' id='wifiDHCP'>DHCP Enabled
+                                <div class="form-group form-check">
+                                    <label class="form-check-label">
+                                        <input class="form-check-input" type="checkbox" id="wifiDHCP">DHCP Enabled
                                     </label>
                                 </div>
-                                <div id='wifiDHCPInput'>
-                                    <div class='form-group'>
-                                        <label for='wifiAddress'>Address</label>
-                                        <input type='text' class='form-control' id='wifiAddress' placeholder='Enter IP Address' name='Address' data-inputmask="'alias': 'ip'">
-                                        <div class='invalid-feedback'>Not a valid IP address.</div>
+                                <div id="wifiDHCPInput">
+                                    <div class="form-group">
+                                        <label for="wifiAddress">Address</label>
+                                        <input type="text" class="form-control" id="wifiAddress" placeholder="Enter IP Address" name="Address" data-inputmask="'alias': 'ip'">
+                                        <div class="invalid-feedback">Not a valid IP address.</div>
                                     </div>
-                                    <div class='form-group'>
-                                        <label for='wifiGateway'>Gateway</label>
-                                        <input type='text' class='form-control' id='apGateway' placeholder='Enter Gateway' name='Gateway' data-inputmask="'alias': 'ip'">
-                                        <div class='invalid-feedback'>Not a valid IP address.</div>
+                                    <div class="form-group">
+                                        <label for="wifiGateway">Gateway</label>
+                                        <input type="text" class="form-control" id="apGateway" placeholder="Enter Gateway" name="Gateway" data-inputmask="'alias': 'ip'">
+                                        <div class="invalid-feedback">Not a valid IP address.</div>
                                     </div>
-                                    <div class='form-group'>
-                                        <label for='wifiSubnet'>Subnet Mask</label>
-                                        <input type='text' class='form-control' id='wifiSubnet' placeholder='Enter Subnet Mask' name='Subnet' data-inputmask="'alias': 'ip'">
-                                        <div class='invalid-feedback'>Not a valid IP address.</div>
+                                    <div class="form-group">
+                                        <label for="wifiSubnet">Subnet Mask</label>
+                                        <input type="text" class="form-control" id="wifiSubnet" placeholder="Enter Subnet Mask" name="Subnet" data-inputmask="'alias': 'ip'">
+                                        <div class="invalid-feedback">Not a valid IP address.</div>
                                     </div>
-                                    <div class='form-group'>
-                                        <label for='wifiDNS1'>Primary DNS</label>
-                                        <input type='text' class='form-control' id='wifiDNS1' placeholder='Enter Primary DNS' name='DNS1' data-inputmask="'alias': 'ip'">
-                                        <div class='invalid-feedback'>Not a valid IP address.</div>
+                                    <div class="form-group">
+                                        <label for="wifiDNS1">Primary DNS</label>
+                                        <input type="text" class="form-control" id="wifiDNS1" placeholder="Enter Primary DNS" name="DNS1" data-inputmask="'alias': 'ip'">
+                                        <div class="invalid-feedback">Not a valid IP address.</div>
                                     </div>
-                                    <div class='form-group'>
-                                        <label for='wifiDNS2'>Secondary DNS</label>
-                                        <input type='text' class='form-control' id='wifiDNS2' placeholder='Enter Secondary DNS' name='DNS2' data-inputmask="'alias': 'ip'">
-                                        <div class='invalid-feedback'>Not a valid IP address.</div>
+                                    <div class="form-group">
+                                        <label for="wifiDNS2">Secondary DNS</label>
+                                        <input type="text" class="form-control" id="wifiDNS2" placeholder="Enter Secondary DNS" name="DNS2" data-inputmask="'alias': 'ip'">
+                                        <div class="invalid-feedback">Not a valid IP address.</div>
                                     </div>
                                 </div>
-                                <button type='submit' class='btn btn-default btn-success btn-block'>Update</button>
+                                <button type="submit" class="btn btn-default btn-success btn-block">Update</button>
                             </form>
                         </div>
-                        <div class='modal-footer'>
-                            <button type='button' class='btn btn-primary' data-dismiss='modal'>Cancel</button>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-primary" data-dismiss="modal">Cancel</button>
                         </div>
                     </div>
                 </div>
@@ -209,99 +209,99 @@
             <p>
                 The Knoblomat&reg; uses WiFi Smart Configuration to connect to an existing network.
                 A smartphone and an special app is required:
-                - For iOS, this application is available under name '<i>Espressif Esptouch</i>'.
-                - For Android, an application is available under name '<i>Espressif Esptouch</i>' or '<i>ESP8266 SmartConfig</i>'.
+                - For iOS, this application is available under name "<i>Espressif Esptouch</i>".
+                - For Android, an application is available under name "<i>Espressif Esptouch</i>" or "<i>ESP8266 SmartConfig</i>".
             </p>
-            <button id='smartButton' type='button' class='btn btn-success' data-toggle='modal' data-target='#smartModal'>
+            <button id="smartButton" type="button" class="btn btn-success" data-toggle="modal" data-target="#smartModal">
                 WiFi Smart Config
             </button>
             <!-- Modal -->
-            <div class='modal fade' id='smartModal' tabindex='-1' role='dialog' aria-labelledby='smartModalLabel' aria-hidden='true'>
-                <div class='modal-dialog modal-dialog-centered' role='document'>
-                    <div class='modal-content'>
-                        <div class='modal-header'>
-                            <h5 class='modal-title' id='smartModalLabel'>SmartConfig</h5>
-                            <button type='button' class='close' data-dismiss='modal' aria-label='Close'>
-                                <span aria-hidden='true'>&times;</span>
+            <div class="modal fade" id="smartModal" tabindex="-1" role="dialog" aria-labelledby="smartModalLabel" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="smartModalLabel">SmartConfig</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
                             </button>
                         </div>
-                        <div class='modal-body'>
-                            <form id='smartModalForm' role='form'>
+                        <div class="modal-body">
+                            <form id="smartModalForm" role="form">
                                 <p>Start the <i>EspTouch</i> app on Your smartphone.</p>
                                 <p>Please enter Your WiFi accesspoint credentials on the phone and confirm the data.</p>
-                                <button type='submit' class='btn btn-success btn-success btn-block'>Start SmartConfig</button>
+                                <button type="submit" class="btn btn-success btn-success btn-block">Start SmartConfig</button>
                             </form>
                         </div>
-                        <div class='modal-footer'>
-                            <button type='button' class='btn btn-primary' data-dismiss='modal'>Cancel</button>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-primary" data-dismiss="modal">Cancel</button>
                         </div>
                     </div>
                 </div>
             </div>
             <p></p>
             <p>Clear the stored configuration data (after restart the Knoblomat&reg; runs as an access point).</p>
-            <button id='clearButton' type='button' class='btn btn-warning' data-toggle='modal' data-target='#clearModal'>
+            <button id="clearButton" type="button" class="btn btn-warning" data-toggle="modal" data-target="#clearModal">
                 Reset WiFi Config
             </button>
             <!-- Modal -->
-            <div class='modal fade' id='clearModal' tabindex='-1' role='dialog' aria-labelledby='clearModalLabel' aria-hidden='true'>
-                <div class='modal-dialog modal-dialog-centered' role='document'>
-                    <div class='modal-content'>
-                        <div class='modal-header'>
-                            <h5 class='modal-title' id='clearModalLabel'>Reset WiFi Config</h5>
-                            <button type='button' class='close' data-dismiss='modal' aria-label='Close'>
-                                <span aria-hidden='true'>&times;</span>
+            <div class="modal fade" id="clearModal" tabindex="-1" role="dialog" aria-labelledby="clearModalLabel" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="clearModalLabel">Reset WiFi Config</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
                             </button>
                         </div>
-                        <div class='modal-body'>
-                            <form id='clearModalForm' role='form'>
+                        <div class="modal-body">
+                            <form id="clearModalForm" role="form">
                                 <p>Do You really want to clear all WiFi settings?</p>
                                 <p>The Knoblomat&reg; will restart in the default WiFi accesspoint mode.</p>
-                                <button type='submit' class='btn btn-warning btn-success btn-block'>Reset WiFi Config</button>
+                                <button type="submit" class="btn btn-warning btn-success btn-block">Reset WiFi Config</button>
                             </form>
                         </div>
-                        <div class='modal-footer'>
-                            <button type='button' class='btn btn-primary' data-dismiss='modal'>Cancel</button>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-primary" data-dismiss="modal">Cancel</button>
                         </div>
                     </div>
                 </div>
             </div>
             <p></p>
             <p>Restart the Knoblomat&reg; (reboot).</p>
-            <button id='rebootButton' type='button' class='btn btn-danger' data-toggle='modal' data-target='#rebootModal'>
+            <button id="rebootButton" type="button" class="btn btn-danger" data-toggle="modal" data-target="#rebootModal">
                 Reboot Knoblomat&reg;
             </button>
             <!-- Modal -->
-            <div class='modal fade' id='rebootModal' tabindex='-1' role='dialog' aria-labelledby='rebootModalLabel' aria-hidden='true'>
-                <div class='modal-dialog modal-dialog-centered' role='document'>
-                    <div class='modal-content'>
-                        <div class='modal-header'>
-                            <h5 class='modal-title' id='rebootModalLabel'>Reboot Knoblomat&reg;</h5>
-                            <button type='button' class='close' data-dismiss='modal' aria-label='Close'>
-                                <span aria-hidden='true'>&times;</span>
+            <div class="modal fade" id="rebootModal" tabindex="-1" role="dialog" aria-labelledby="rebootModalLabel" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="rebootModalLabel">Reboot Knoblomat&reg;</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
                             </button>
                         </div>
-                        <div class='modal-body'>
-                            <form id='rebootModalForm' role='form'>
+                        <div class="modal-body">
+                            <form id="rebootModalForm" role="form">
                                 Do You really want to reboot the Knoblomat&reg;?
-                                <button type='submit' class='btn btn-danger btn-success btn-block'>Reboot Knoblomat&reg;</button>
+                                <button type="submit" class="btn btn-danger btn-success btn-block">Reboot Knoblomat&reg;</button>
                             </form>
                         </div>
-                        <div class='modal-footer'>
-                            <button type='button' class='btn btn-primary' data-dismiss='modal'>Cancel</button>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-primary" data-dismiss="modal">Cancel</button>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-    <footer class='border-top footer text-muted'>
-        <div class='container'>
+    <footer class="border-top footer text-muted">
+        <div class="container">
             &copy; 2019 - Dr. Peter Trimmel
         </div>
     </footer>
 
-    <script type='text/javascript'>
+    <script type="text/javascript">
         var settings;   // Complete settings
         var apInfo;     // WiFi accesspoint info
         var apOK;       // WiFi accesspoint OK

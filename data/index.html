@@ -1,39 +1,39 @@
 ﻿<!DOCTYPE html>
-<html lang='en'>
+<html lang="en">
 <head>
-    <meta charset='utf-8' />
-    <meta name='viewport' content='width=device-width, initial-scale=1.0' />
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Knoblomat - Game</title>
     <link rel="stylesheet" type="text/css" href="css/bootstrap.min.css">
     <link rel="stylesheet" type="text/css" href="css/knoblomat.min.css">
-    <script src='js/jquery-3.4.1.min.js'></script>
-    <script src='js/popper.min.js'></script>
-    <script src='js/bootstrap.min.js'></script>
-    <script src='js/state-machine.min.js'></script>
+    <script src="js/jquery-3.4.1.min.js"></script>
+    <script src="js/popper.min.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+    <script src="js/state-machine.min.js"></script>
 </head>
 
 <body>
     <header>
-        <nav class='navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3'>
-            <div class='container'>
-                <a class='navbar-brand' href='/'>Knoblomat</a>
-                <button class='navbar-toggler' type='button' data-toggle='collapse' data-target='.navbar-collapse' aria-controls='navbarSupportedContent'
-                        aria-expanded='false' aria-label='Toggle navigation'>
-                    <span class='navbar-toggler-icon'></span>
+        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
+            <div class="container">
+                <a class="navbar-brand" href="/">Knoblomat</a>
+                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse" aria-controls="navbarSupportedContent"
+                        aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
                 </button>
-                <div class='navbar-collapse collapse d-sm-inline-flex flex-sm-row-reverse'>
-                    <ul class='navbar-nav flex-grow-1'>
-                        <li class='nav-item'>
-                            <a class='nav-link text-dark' href='/'>Home</a>
+                <div class="navbar-collapse collapse d-sm-inline-flex flex-sm-row-reverse">
+                    <ul class="navbar-nav flex-grow-1">
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" href="/">Home</a>
                         </li>
-                        <li class='nav-item'>
-                            <a class='nav-link text-dark' href='/help.html'>Help</a>
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" href="/help.html">Help</a>
                         </li>
-                        <li class='nav-item'>
-                            <a class='nav-link text-dark' href='/config.html'>Config</a>
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" href="/config.html">Config</a>
                         </li>
-                        <li class='nav-item'>
-                            <a class='nav-link text-dark' href='/about.html'>About</a>
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" href="/about.html">About</a>
                         </li>
                     </ul>
                 </div>
@@ -133,13 +133,13 @@
             </div>
         </div>
     </div>
-    <footer class='border-top footer text-muted'>
-        <div class='container'>
+    <footer class="border-top footer text-muted">
+        <div class="container">
             &copy; 2019 - Dr. Peter Trimmel
         </div>
     </footer>
 
-    <script type='text/javascript'>
+    <script type="text/javascript">
         // The audio elements (button click, results)
         var audioStartup = document.createElement('audio');
         var audioClick = document.createElement('audio');
@@ -211,27 +211,27 @@
         }
 
         function showInfo(message) {
-            $('#alert').removeClass("alert-success alert-info alert-warning alert-danger alert-light").addClass("alert-info");
+            $('#alert').removeClass('alert-success alert-info alert-warning alert-danger alert-light').addClass('alert-info');
             $('#alert').html(message);
         }
 
         function showSuccess(message) {
-            $('#alert').removeClass("alert-success alert-info alert-warning alert-danger alert-light").addClass("alert-success");
+            $('#alert').removeClass('alert-success alert-info alert-warning alert-danger alert-light').addClass('alert-success');
             $('#alert').html(message);
         }
 
         function showWarning(message) {
-            $('#alert').removeClass("alert-success alert-info alert-warning alert-danger alert-light").addClass("alert-warning");
+            $('#alert').removeClass('alert-success alert-info alert-warning alert-danger alert-light').addClass('alert-warning');
             $('#alert').html(message);
         }
 
         function showDanger(message) {
-            $('#alert').removeClass("alert-success alert-info alert-warning alert-danger alert-light").addClass("alert-danger");
+            $('#alert').removeClass('alert-success alert-info alert-warning alert-danger alert-light').addClass('alert-danger');
             $('#alert').html(message);
         }
 
         function showLight(message) {
-            $('#alert').removeClass("alert-success alert-info alert-warning alert-danger alert-light").addClass("alert-light");
+            $('#alert').removeClass('alert-success alert-info alert-warning alert-danger alert-light').addClass('alert-light');
             $('#alert').html(message);
         }
 
@@ -241,15 +241,15 @@
             // Turn on the user LEDs depending on the user selection.
             switch (selection) {
                 case 1:
-                    message = "You have selected rock.<br>";
+                    message = 'You have selected rock.<br>';
                     on('led1');
                     break;
                 case 2:
-                    message = "You have selected scissors.<br>";
+                    message = 'You have selected scissors.<br>';
                     on('led2');
                     break;
                 case 3:
-                    message = "You have selected paper.<br>";
+                    message = 'You have selected paper.<br>';
                     on('led3');
                     break;
             }
@@ -257,7 +257,7 @@
             // Turn on the machine and result LEDs depending on the selected value.
             switch (value) {
                 case 1:
-                    message += "I have selected rock. ";
+                    message += 'I have selected rock. ';
                     on('led4');
                     switch (selection) {
                         case 1: on('led8'); result = 0; break;
@@ -268,7 +268,7 @@
                     break;
 
                 case 2:
-                    message += "I have selected scissors. ";
+                    message += 'I have selected scissors. ';
                     on('led5');
                     switch (selection) {
                         case 1: on('led7'); result = 1; break;
@@ -279,7 +279,7 @@
                     break;
 
                 case 3:
-                    message += "I have selected paper. ";
+                    message += 'I have selected paper. ';
                     on('led6');
                     switch (selection) {
                         case 1: on('led9'); result = -1; break;
@@ -291,19 +291,19 @@
             }
 
             if (result == 1) {
-                message += "You won!";
+                message += 'You won!';
                 audioWin.play();
                 showSuccess(message);
                 ++wins;
             }
             else if (result == 0) {
-                message += "It's a tie!";
+                message += 'It\'s a tie!';
                 audioTie.play();
                 showWarning(message);
                 ++ties;
             }
             else if (result == -1) {
-                message += "You lost!";
+                message += 'You lost!';
                 audioLoss.play();
                 showDanger(message);
                 ++losses;
@@ -350,18 +350,18 @@
                 onEnterWaiting: function () {
                     console.log('enter waiting');
                     clear();
-                    showInfo("Ready for a game of rock paper sissors?");
+                    showInfo('Ready for a game of rock paper sissors?');
                 },
                 onEnterInit: function () {
                     console.log('enter init');
                     row1();
-                    showLight("Let's start...");
+                    showLight('Let's start...');
                     handle = setTimeout(onTimeout, 15000);
                 },
                 onEnterReady: function () {
                     console.log('enter ready');
                     row2();
-                    showLight("I am ready...");
+                    showLight('I am ready...');
                     handle = setTimeout(onTimeout, 15000);
                 },
                 onLeaveReady: function () {
@@ -371,7 +371,7 @@
                 onEnterDone: function () {
                     console.log('enter done');
                     row3();
-                    showLight("Check results...");
+                    showLight('Check results...');
                     handle = setTimeout(() => results(), 1000);
                 }
             }
@@ -384,10 +384,10 @@
 
         function reset() {
             $.ajax({
-                url: "/reset",
-                type: "POST",
+                url: '/reset',
+                type: 'POST',
                 success: function () {
-                    console.log("resetting timer OK");
+                    console.log('resetting timer OK');
                 }
             });
         }
@@ -397,7 +397,7 @@
         });
 
         $('#button0').on('click', function (e) {
-            $('#results').text("The total score is: " + wins + ":" + losses + " (" + ties + " ties)");
+            $('#results').text('The total score is: ' + wins + ':' + losses + ' (' + ties + ' ties)');
         });
 
         $('#button1').on('click', function (e) {
@@ -423,13 +423,13 @@
 
         $('#save').on('click', function (e) {
             $.ajax({
-                url: "/game",
-                type: "POST",
+                url: '/game',
+                type: 'POST',
                 data: JSON.stringify({ Ties: ties, Wins: wins, Losses: losses }),
-                contentType: "application/json; charset=utf-8",
-                dataType: "json",
+                contentType: 'application/json; charset=utf-8',
+                dataType: 'json',
                 success: function () {
-                    console.log("setting game data OK");
+                    console.log('setting game data OK');
                 }
             });
             $('#serverModal').modal('hide');

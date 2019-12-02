@@ -18,7 +18,7 @@
 #include <Preferences.h>
 
 /// <summary>
-/// 
+/// This class holds the WiFi connection configuration data.
 /// </summary>
 class WiFiSettingsClass
 {

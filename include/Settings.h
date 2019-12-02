@@ -19,6 +19,9 @@
 #include "WiFiSettings.h"
 #include "GameSettings.h"
 
+/// <summary>
+/// This class holds the all settings data.
+/// </summary>
 class SettingsClass
 {
 public:

@@ -13,14 +13,6 @@
 #include "GameSettings.h"
 
 /// <summary>
-/// Initializes selected data fields to default values.
-/// </summary>
-GameSettingsClass::GameSettingsClass()
-{
-
-}
-
-/// <summary>
 /// Initializes all data from the non volatile storage.
 /// </summary>
 void GameSettingsClass::init()
