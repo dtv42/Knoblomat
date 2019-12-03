@@ -40,7 +40,7 @@ SystemInfoClass::SystemInfoClass()
 	bytes[4] = (mac >> 8) & 0xFF;
 	bytes[5] = (mac >> 0) & 0xFF;
 
-	sprintf(chipid, "%02X%02X%02X%02X%02X%02X", bytes[0], bytes[1], bytes[2], bytes[3], bytes[4], bytes[5]);
+	sprintf(chipid, "%02X%02X%02X%02X%02X%02X", bytes[5], bytes[4], bytes[3], bytes[2], bytes[1], bytes[0]);
 
 	ChipID = String(chipid);
 	Software = String(SOFTWARE_VERSION);

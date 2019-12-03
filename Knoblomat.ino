@@ -491,11 +491,171 @@ void setup()
 			Serial.println("Error setting up MDNS responder!");
 		}
 
-		// Setup handlers for bootstrap Web.
+		// Setup handlers for bootstrap Web pages.
 
-		server.serveStatic("/", SPIFFS, "/")
-			.setDefaultFile("index.html");
+		server.on("/", HTTP_GET, [](AsyncWebServerRequest* request) {
+			Serial.println("GET: /");
+			request->send(SPIFFS, "/index.html", "text/html");
+			timer.reset();
+			});
+
+		server.on("/home", HTTP_GET, [](AsyncWebServerRequest* request) {
+			Serial.println("GET: /home");
+			request->send(SPIFFS, "/index.html", "text/html");
+			timer.reset();
+			});
+
+		server.on("/help", HTTP_GET, [](AsyncWebServerRequest* request) {
+			Serial.println("GET: /help");
+			request->send(SPIFFS, "/help.html", "text/html");
+			timer.reset();
+			});
+
+		server.on("/config", HTTP_GET, [](AsyncWebServerRequest* request) {
+			Serial.println("GET: /config");
+			request->send(SPIFFS, "/config.html", "text/html");
+			timer.reset();
+			});
+
+		server.on("/about", HTTP_GET, [](AsyncWebServerRequest* request) {
+			Serial.println("GET: /about");
+			request->send(SPIFFS, "/about.html", "text/html");
+			timer.reset();
+			});
+
+		server.on("/error", HTTP_GET, [](AsyncWebServerRequest* request) {
+			Serial.println("GET: /error");
+			request->send(SPIFFS, "/error.html", "text/html");
+			timer.reset();
+			});
+
+		// Setup handlers for various resources.
+
+		server.on("/favicon.ico", HTTP_GET, [](AsyncWebServerRequest* request) {
+			Serial.println("GET: /favicon.ico");
+			request->send(SPIFFS, "/images/favicon.png", "image/png");
+			timer.reset();
+			});
+
+		server.on("/js/bootstrap.min.js", HTTP_GET, [](AsyncWebServerRequest* request) {
+			Serial.println("GET: /js/bootstrap.min.js");
+			request->send(SPIFFS, "/js/bootstrap.min.js", "text/javascript");
+			timer.reset();
+			});
+
+		server.on("/js/bootstrap.bundle.min.js", HTTP_GET, [](AsyncWebServerRequest* request) {
+			Serial.println("GET: /js/bootstrap.bundle.min.js");
+			request->send(SPIFFS, "/js/bootstrap.bundle.min.js", "text/javascript");
+			timer.reset();
+			});
+
+		server.on("/js/popper.min.js", HTTP_GET, [](AsyncWebServerRequest* request) {
+			Serial.println("GET: /js/popper.min.js");
+			request->send(SPIFFS, "/js/popper.min.js", "text/javascript");
+			timer.reset();
+			});
+
+		server.on("/js/jquery-3.4.1.min.js", HTTP_GET, [](AsyncWebServerRequest* request) {
+			Serial.println("GET: /js/jquery-3.4.1.min.js");
+			request->send(SPIFFS, "/js/jquery-3.4.1.min.js", "text/javascript");
+			timer.reset();
+			});
+
+		server.on("/css/bootstrap.min.css", HTTP_GET, [](AsyncWebServerRequest* request) {
+			Serial.println("GET: /css/bootstrap.min.css");
+			request->send(SPIFFS, "/css/bootstrap.min.css", "text/css");
+			timer.reset();
+			});
+
+		server.on("/css/knoblomat.min.css", HTTP_GET, [](AsyncWebServerRequest* request) {
+			Serial.println("GET: /css/knoblomat.min.css");
+			request->send(SPIFFS, "/css/knoblomat.min.css", "text/css");
+			timer.reset();
+			});
+
+		server.on("/js/state-machine.min.js", HTTP_GET, [](AsyncWebServerRequest* request) {
+			Serial.println("GET: /js/state-machine.min.js");
+			request->send(SPIFFS, "/js/state-machine.min.js", "text/javascript");
+			timer.reset();
+			});
+
+		server.on("/js/jquery.inputmask.min.js", HTTP_GET, [](AsyncWebServerRequest* request) {
+			Serial.println("GET: /js/jquery.inputmask.min.js");
+			request->send(SPIFFS, "/js/jquery.inputmask.min.js", "text/javascript");
+			timer.reset();
+			});
+
+		server.on("/images/picture0.jpg", HTTP_GET, [](AsyncWebServerRequest* request) {
+			Serial.println("GET: /images/picture0.jpg");
+			request->send(SPIFFS, "/images/picture0.jpg", "image/jpg");
+			timer.reset();
+			});
+
+		server.on("/images/picture1.jpg", HTTP_GET, [](AsyncWebServerRequest* request) {
+			Serial.println("GET: /images/picture1.jpg");
+			request->send(SPIFFS, "/images/picture1.jpg", "image/jpg");
+			timer.reset();
+			});
+
+		server.on("/images/picture2.jpg", HTTP_GET, [](AsyncWebServerRequest* request) {
+			Serial.println("GET: /images/picture2.jpg");
+			request->send(SPIFFS, "/images/picture2.jpg", "image/jpg");
+			timer.reset();
+			});
+
+		server.on("/images/picture3.jpg", HTTP_GET, [](AsyncWebServerRequest* request) {
+			Serial.println("GET: /images/picture3.jpg");
+			request->send(SPIFFS, "/images/picture3.jpg", "image/jpg");
+			timer.reset();
+			});
+
+		server.on("/sounds/vista.mp3", HTTP_GET, [](AsyncWebServerRequest* request) {
+			Serial.println("GET: /sounds/vista.mp3");
+			request->send(SPIFFS, "/sounds/vista.mp3", "audio/mpeg");
+			timer.reset();
+			});
+
+		server.on("/sounds/click.mp3", HTTP_GET, [](AsyncWebServerRequest* request) {
+			Serial.println("GET: /sounds/click.mp3");
+			request->send(SPIFFS, "/sounds/click.mp3", "audio/mpeg");
+			timer.reset();
+			});
+
+		server.on("/sounds/win.mp3", HTTP_GET, [](AsyncWebServerRequest* request) {
+			Serial.println("GET: /sounds/win.mp3");
+			request->send(SPIFFS, "/sounds/win.mp3", "audio/mpeg");
+			timer.reset();
+			});
+
+		server.on("/sounds/tie.mp3", HTTP_GET, [](AsyncWebServerRequest* request) {
+			Serial.println("GET: /sounds/tie.mp3");
+			request->send(SPIFFS, "/sounds/tie.mp3", "audio/mpeg");
+			timer.reset();
+			});
+
+		server.on("/sounds/loss.mp3", HTTP_GET, [](AsyncWebServerRequest* request) {
+			Serial.println("GET: /sounds/loss.mp3");
+			request->send(SPIFFS, "/sounds/loss.mp3", "audio/mpeg");
+			timer.reset();
+			});
+
+		server.on("/js/popper.min.js.map", HTTP_GET, [](AsyncWebServerRequest* request) {
+			Serial.println("GET: /js/popper.min.js.map");
+			request->send(404);
+			});
 		
+		server.on("/js/bootstrap.min.js.map", HTTP_GET, [](AsyncWebServerRequest* request) {
+			Serial.println("GET: /js/bootstrap.min.js.map");
+			request->send(404);
+			});
+
+		server.on("/css/bootstrap.min.css.map", HTTP_GET, [](AsyncWebServerRequest* request) {
+			Serial.println("GET: /css/bootstrap.min.css.map");
+			request->send(404);
+			});
+
+		// Setup handlers for JSON GET requests.
+
 		server.on("/ap", HTTP_GET, [](AsyncWebServerRequest* request) {
 			Serial.println("GET: /ap");
 
@@ -577,6 +737,8 @@ void setup()
 			reboot = true;
 			});
 
+		// Setup handlers for JSON POST requests.
+
 		server.on("/ap", HTTP_POST, [](AsyncWebServerRequest* request) {}, NULL,
 			[](AsyncWebServerRequest* request, uint8_t* data, size_t len, size_t index, size_t total) {
 				Serial.println("POST: /ap");
@@ -609,9 +771,14 @@ void setup()
 				timer.reset();
 			});
 
+		// Setup handlers for not found.
+
 		server.onNotFound([](AsyncWebServerRequest* request) {
+			Serial.print(request->methodToString());
+			Serial.print(": ");
+			Serial.println(request->url());
 			Serial.println("404: Not Found");
-			request->send(404);
+			request->redirect("/error");
 			timer.reset();
 			});
 

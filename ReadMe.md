@@ -32,26 +32,25 @@ Nine LEDs and three push puttons are used to display the user and machine choice
 The LEDs indicate the user selection (push buttons) as follows:
 
 ~~~TEXT
-LED1    (green)     Rock     (user selection)
-LED2    (yellow)    Scissors (user selection)
-LED3    (red)       Paper    (user selection)
+LED1     Rock     (user selection)
+LED2     Scissors (user selection)
+LED3     Paper    (user selection)
 
-LED4    (green)     Rock     (machine selection)
-LED5    (yellow)    Scissors (machine selection)
-LED6    (red)       Paper    (machine selection)
+LED4     Rock     (machine selection)
+LED5     Scissors (machine selection)
+LED6     Paper    (machine selection)
 
-LED7    (green)     Winning  (user won, machine lost)
-LED8    (yellow)    Tied     (no winner)
-LED9    (red)       Loosing  (user lost, machine won)
+LED7     Winning  (user won, machine lost)
+LED8     Tied     (no winner)
+LED9     Loosing  (user lost, machine won)
 ~~~
 
 The push buttons are used to select the users choice.
 
 ~~~TEXT
-SWITCH0 (on/off switch)     Power
-SWITCH1 (toggle switch)     Rock (reset)
-SWITCH2 (toggle switch)     Scissors (reset)
-SWITCH3 (toggle switch)     Paper (reset)
+SWITCH1  Rock     (reset)
+SWITCH2  Scissors (reset)
+SWITCH3  Paper    (reset)
 ~~~
 
 After startup the system is in the STARTUP state and three rows of
