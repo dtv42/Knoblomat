@@ -37,10 +37,10 @@ auto HEADER = "KNOBLOMAT - a DTV classic since the 1970s";
 auto COPYRIGHT = "Copyright (c) 2019 - Dr. Peter Trimmel";
 
 // Watchdog timer - 10 minute timer
-Neotimer timer = Neotimer(10* 60 * 1000); 
+Neotimer timer = Neotimer(10 * 60 * 1000); 
 
 // On board LED.
-JLed led = JLed(LED_BUILTIN).Breathe(1000).DelayAfter(1000).Forever();
+JLed led = JLed(LED_BUILTIN).Blink(1000, 1000).Forever();
 
 // The global application settings.
 SettingsClass settings;
@@ -733,7 +733,7 @@ void setup()
 		server.on("/reboot", HTTP_POST, [](AsyncWebServerRequest* request) {
 			Serial.println("POST: /reboot");
 			request->send(202, "text/html", "Knoblomat rebooting");
-			led = JLed(LED_BUILTIN).Breathe(250).DelayAfter(250).Forever();
+			led = JLed(LED_BUILTIN).Blink(250, 250).Forever();
 			reboot = true;
 			});
 
@@ -746,7 +746,7 @@ void setup()
 				settings.ApSettings.deserialize(json);
 				settings.ApSettings.save();
 				request->send(202, "application/json", settings.serialize());
-				led = JLed(LED_BUILTIN).Breathe(250).DelayAfter(250).Forever();
+				led = JLed(LED_BUILTIN).Blink(250, 250).Forever();
 				reboot = true;
 			});
 
@@ -757,7 +757,7 @@ void setup()
 				settings.WiFiSettings.deserialize(json);
 				settings.WiFiSettings.save();
 				request->send(202, "application/json", settings.serialize());
-				led = JLed(LED_BUILTIN).Breathe(250).DelayAfter(250).Forever();
+				led = JLed(LED_BUILTIN).Blink(250, 250).Forever();
 				reboot = true;
 			});
 
@@ -791,7 +791,7 @@ void setup()
 	else
 	{
 		Serial.print("No WiFi network - stopping");
-		led = JLed(LED_BUILTIN).Breathe(250).DelayAfter(250).Forever();
+		led = JLed(LED_BUILTIN).Blink(1000, 2000).Forever();
 	}
 
 	// Start the watchdog timer
