@@ -22,15 +22,15 @@
 #include <nvs_flash.h>
 #include <rom/rtc.h>
 
-#include "include/Settings.h"
-#include "include/ApInfo.h"
-#include "include/WiFiInfo.h"
-#include "include/ApSettings.h"
-#include "include/ServerInfo.h"
-#include "include/SystemInfo.h"
+#include "src/Settings.h"
+#include "src/ApInfo.h"
+#include "src/WiFiInfo.h"
+#include "src/ApSettings.h"
+#include "src/ServerInfo.h"
+#include "src/SystemInfo.h"
 
 // Set the software version for the SystemInfoClass.
-char* SystemInfoClass::SOFTWARE_VERSION = "V1.2.3 2019-12-01";
+char* SystemInfoClass::SOFTWARE_VERSION = "V1.2.5 2019-12-07";
 
 // Message lines to be printed on the serial line during startup.
 auto HEADER = "KNOBLOMAT - a DTV classic since the 1970s";
