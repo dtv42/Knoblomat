@@ -61,12 +61,33 @@ bool wifiOK = false;
 bool apOK = false;
 
 /// <summary>
-/// Try to connect to WiFi (returns the WiFi status).
+/// Try to change the WiFi mode to AP_STA.
+/// After every try wait for 50 msec.
+/// </summary>
+/// <param name="count">The number of tries</param>
+/// <returns>True if sucessful</returns>
+bool wait4Mode(int count = 10)
+{
+	//Wait for WiFi mode
+	Serial.println("Waiting for WiFi Mode");
+
+	WiFi.mode(WIFI_OFF);
+	WiFi.mode(WIFI_AP_STA);
+
+	while ((WiFi.getMode() != WIFI_AP_STA) && (--count > 0)) {
+		delay(50);
+	}
+
+	return (WiFi.getMode() == WIFI_AP_STA);
+}
+
+/// <summary>
+/// Try to connect to WiFi (returns true if the WiFi status == WL_CONNECTED).
 /// After every try wait for 500 msec.
 /// </summary>
 /// <param name="count">The number of tries</param>
-/// <returns>The WiFi status</returns>
-int wait4WiFi(int count = 20)
+/// <returns>True if sucessful</returns>
+bool wait4WiFi(int count = 20)
 {
 	//Wait for WiFi to connect
 	Serial.println("Waiting for WiFi");
@@ -76,7 +97,27 @@ int wait4WiFi(int count = 20)
 	}
 	Serial.println("");
 
-	return WiFi.status();
+	return (WiFi.status() == WL_CONNECTED);
+}
+
+/// <summary>
+/// Try to run ESP SmartConfig.
+/// After every try wait for 500 msec.
+/// </summary>
+/// <param name="count">The number of tries</param>
+/// <returns>True if sucessful</returns>
+bool wait4Done(int count = 120)
+{
+	//Wait for SmartConfig packet from mobile
+	Serial.println("Waiting for SmartConfig.");
+
+	while (!WiFi.smartConfigDone() && (--count > 0)) {
+		delay(500);
+		Serial.print(".");
+	}
+	Serial.println("");
+
+	return WiFi.smartConfigDone();
 }
 
 /// <summary>
@@ -87,7 +128,6 @@ void connectWiFi(void)
 	wifiOK = false;
 	WiFi.setAutoReconnect(true);
 	WiFi.setHostname(settings.WiFiSettings.Hostname.c_str());
-	int status = WL_IDLE_STATUS;
 
 	// Check if WiFi network SSID is availabel and try to connect.
 	if (settings.WiFiSettings.SSID != "")
@@ -103,7 +143,7 @@ void connectWiFi(void)
 			{
 				// attempt to connect to Wifi network:
 				WiFi.begin(settings.WiFiSettings.SSID.c_str(), settings.WiFiSettings.PASS.c_str());
-				status = wait4WiFi();
+				wifiOK = wait4WiFi();
 			}
 			else
 			{
@@ -135,7 +175,7 @@ void connectWiFi(void)
 					}
 
 					WiFi.begin(settings.WiFiSettings.SSID.c_str(), settings.WiFiSettings.PASS.c_str());
-					status = wait4WiFi();
+					wifiOK = wait4WiFi();
 				}
 			}
 		}
@@ -145,7 +185,7 @@ void connectWiFi(void)
 			if (settings.WiFiSettings.DHCP)
 			{
 				WiFi.begin(settings.WiFiSettings.SSID.c_str());
-				status = wait4WiFi();
+				wifiOK = wait4WiFi();
 			}
 			else
 			{
@@ -177,15 +217,14 @@ void connectWiFi(void)
 					}
 
 					WiFi.begin(settings.WiFiSettings.SSID.c_str());
-					status = wait4WiFi();
+					wifiOK = wait4WiFi();
 				}
 			}
 		}
 
-		if (status == WL_CONNECTED)
+		if (wifiOK)
 		{
-			wifiOK = true;
-
+			Serial.println("WiFi connection successful");
 			WiFiInfoClass info(WiFi);
 			info.print();
 		}
@@ -242,6 +281,7 @@ void createAP(void)
 	if (apOK)
 	{
 		WiFi.softAPsetHostname(settings.ApSettings.Hostname.c_str());
+		Serial.print("WiFi Access Point setup successful");
 		ApInfoClass info(WiFi);
 		info.print();
 	}
@@ -266,53 +306,37 @@ void checkSmart(void)
 		}
 
 		//Init WiFi as Access Point and Station
-		WiFi.mode(WIFI_OFF);
-		WiFi.mode(WIFI_AP_STA);
-		while (WiFi.getMode() != WIFI_AP_STA) {
-			delay(50);
-		}
-
-		//Start SmartConfig
-		WiFi.beginSmartConfig();
-
-		int count = 120;
-
-		//Wait for SmartConfig packet from mobile
-		Serial.println("Waiting for SmartConfig.");
-		while (!WiFi.smartConfigDone() && (--count > 0)) {
-			delay(500);
-			Serial.print(".");
-		}
-		Serial.println("");
-
-		if (WiFi.smartConfigDone())
+		if (wait4Mode())
 		{
-			Serial.println("SmartConfig received.");
-			wait4WiFi();
+			//Start SmartConfig
+			WiFi.beginSmartConfig();
 
-			if (wifiOK)
+			if (wait4Done())
 			{
-				Serial.println("WiFi Connected.");
-
-				wifiOK = true;
-
-				WiFiInfoClass info(WiFi);
-				info.print();
-
-				// Save the smart config WiFi settings.
-				settings.WiFiSettings.SSID = info.SSID;
-				settings.WiFiSettings.PASS = info.PASS;
-				settings.WiFiSettings.DHCP = true;
-				settings.WiFiSettings.save();
-
-				ESP.restart();
+				Serial.println("SmartConfig received.");
+				wifiOK = wait4WiFi();
 			}
-			else
-			{
-				// Revert to default WiFi settings (default access point).
-				settings.clear();
-				ESP.restart();
-			}
+		}
+
+		if (wifiOK)
+		{
+			Serial.println("WiFi Connected.");
+			WiFiInfoClass info(WiFi);
+			info.print();
+
+			// Save the smart config WiFi settings.
+			settings.WiFiSettings.SSID = info.SSID;
+			settings.WiFiSettings.PASS = info.PASS;
+			settings.WiFiSettings.DHCP = true;
+			settings.WiFiSettings.save();
+
+			ESP.restart();
+		}
+		else
+		{
+			// Revert to default WiFi settings (default access point).
+			settings.clear();
+			ESP.restart();
 		}
 	}
 }
@@ -456,6 +480,15 @@ void setup()
 		return;
 	}
 
+	Serial.println("SPIFFS content:");
+	File root = SPIFFS.open("/");
+	File file = root.openNextFile();
+
+	while (file) {
+		Serial.println("\t" + String(file.name()) + ", " + String(file.size()) + " bytes");
+		file = root.openNextFile();
+	}
+
 	// Set the WiFi event handler.
 	WiFi.onEvent(WiFiStationConnected, SYSTEM_EVENT_AP_STACONNECTED);
 	WiFi.onEvent(WiFiStationDisconnected, SYSTEM_EVENT_AP_STADISCONNECTED);
@@ -465,17 +498,19 @@ void setup()
 	WiFi.onEvent(WiFiStopped, SYSTEM_EVENT_AP_STOP);
 
 	// Set the WiFi mode (allowing access point and station mode).
-	WiFi.mode(WIFI_AP_STA);
-	while (WiFi.getMode() != WIFI_AP_STA) {
-		delay(50);
+	if (wait4Mode())
+	{
+		// Try to connect to WiFi network and create WiFi access point.
+		connectWiFi();
+		createAP();
 	}
-
-	// Try to connect to WiFi network and create WiFi access point.
-	connectWiFi();
-	createAP();
 
 	if (wifiOK || apOK)
 	{
+		// Show Web server info.
+		ServerInfoClass info(WiFi);
+		info.print();
+
 		// Setup NetBIOS name service
 		NBNS.begin("ServerInfoClass::HOSTNAME");
 
@@ -494,37 +529,37 @@ void setup()
 		// Setup handlers for bootstrap Web pages.
 
 		server.on("/", HTTP_GET, [](AsyncWebServerRequest* request) {
-			Serial.println("GET: /");
+			Serial.print("GET Request() url: "); Serial.println(request->url());
 			request->send(SPIFFS, "/index.html", "text/html");
 			timer.reset();
 			});
 
 		server.on("/home", HTTP_GET, [](AsyncWebServerRequest* request) {
-			Serial.println("GET: /home");
+			Serial.print("GET Request() url: "); Serial.println(request->url());
 			request->send(SPIFFS, "/index.html", "text/html");
 			timer.reset();
 			});
 
 		server.on("/help", HTTP_GET, [](AsyncWebServerRequest* request) {
-			Serial.println("GET: /help");
+			Serial.print("GET Request() url: "); Serial.println(request->url());
 			request->send(SPIFFS, "/help.html", "text/html");
 			timer.reset();
 			});
 
 		server.on("/config", HTTP_GET, [](AsyncWebServerRequest* request) {
-			Serial.println("GET: /config");
+			Serial.print("GET Request() url: "); Serial.println(request->url());
 			request->send(SPIFFS, "/config.html", "text/html");
 			timer.reset();
 			});
 
 		server.on("/about", HTTP_GET, [](AsyncWebServerRequest* request) {
-			Serial.println("GET: /about");
+			Serial.print("GET Request() url: "); Serial.println(request->url());
 			request->send(SPIFFS, "/about.html", "text/html");
 			timer.reset();
 			});
 
 		server.on("/error", HTTP_GET, [](AsyncWebServerRequest* request) {
-			Serial.println("GET: /error");
+			Serial.print("GET Request() url: "); Serial.println(request->url());
 			request->send(SPIFFS, "/error.html", "text/html");
 			timer.reset();
 			});
@@ -532,132 +567,132 @@ void setup()
 		// Setup handlers for various resources.
 
 		server.on("/favicon.ico", HTTP_GET, [](AsyncWebServerRequest* request) {
-			Serial.println("GET: /favicon.ico");
+			Serial.print("GET Request() url: "); Serial.println(request->url());
 			request->send(SPIFFS, "/images/favicon.png", "image/png");
 			timer.reset();
 			});
 
 		server.on("/js/bootstrap.min.js", HTTP_GET, [](AsyncWebServerRequest* request) {
-			Serial.println("GET: /js/bootstrap.min.js");
+			Serial.print("GET Request() url: "); Serial.println(request->url());
 			request->send(SPIFFS, "/js/bootstrap.min.js", "text/javascript");
 			timer.reset();
 			});
 
 		server.on("/js/bootstrap.bundle.min.js", HTTP_GET, [](AsyncWebServerRequest* request) {
-			Serial.println("GET: /js/bootstrap.bundle.min.js");
+			Serial.print("GET Request() url: "); Serial.println(request->url());
 			request->send(SPIFFS, "/js/bootstrap.bundle.min.js", "text/javascript");
 			timer.reset();
 			});
 
 		server.on("/js/popper.min.js", HTTP_GET, [](AsyncWebServerRequest* request) {
-			Serial.println("GET: /js/popper.min.js");
+			Serial.print("GET Request() url: "); Serial.println(request->url());
 			request->send(SPIFFS, "/js/popper.min.js", "text/javascript");
 			timer.reset();
 			});
 
 		server.on("/js/jquery-3.4.1.min.js", HTTP_GET, [](AsyncWebServerRequest* request) {
-			Serial.println("GET: /js/jquery-3.4.1.min.js");
+			Serial.print("GET Request() url: "); Serial.println(request->url());
 			request->send(SPIFFS, "/js/jquery-3.4.1.min.js", "text/javascript");
 			timer.reset();
 			});
 
 		server.on("/css/bootstrap.min.css", HTTP_GET, [](AsyncWebServerRequest* request) {
-			Serial.println("GET: /css/bootstrap.min.css");
+			Serial.print("GET Request() url: "); Serial.println(request->url());
 			request->send(SPIFFS, "/css/bootstrap.min.css", "text/css");
 			timer.reset();
 			});
 
 		server.on("/css/knoblomat.min.css", HTTP_GET, [](AsyncWebServerRequest* request) {
-			Serial.println("GET: /css/knoblomat.min.css");
+			Serial.print("GET Request() url: "); Serial.println(request->url());
 			request->send(SPIFFS, "/css/knoblomat.min.css", "text/css");
 			timer.reset();
 			});
 
 		server.on("/js/state-machine.min.js", HTTP_GET, [](AsyncWebServerRequest* request) {
-			Serial.println("GET: /js/state-machine.min.js");
+			Serial.print("GET Request() url: "); Serial.println(request->url());
 			request->send(SPIFFS, "/js/state-machine.min.js", "text/javascript");
 			timer.reset();
 			});
 
 		server.on("/js/jquery.inputmask.min.js", HTTP_GET, [](AsyncWebServerRequest* request) {
-			Serial.println("GET: /js/jquery.inputmask.min.js");
+			Serial.print("GET Request() url: "); Serial.println(request->url());
 			request->send(SPIFFS, "/js/jquery.inputmask.min.js", "text/javascript");
 			timer.reset();
 			});
 
 		server.on("/images/picture0.jpg", HTTP_GET, [](AsyncWebServerRequest* request) {
-			Serial.println("GET: /images/picture0.jpg");
+			Serial.print("GET Request() url: "); Serial.println(request->url());
 			request->send(SPIFFS, "/images/picture0.jpg", "image/jpg");
 			timer.reset();
 			});
 
 		server.on("/images/picture1.jpg", HTTP_GET, [](AsyncWebServerRequest* request) {
-			Serial.println("GET: /images/picture1.jpg");
+			Serial.print("GET Request() url: "); Serial.println(request->url());
 			request->send(SPIFFS, "/images/picture1.jpg", "image/jpg");
 			timer.reset();
 			});
 
 		server.on("/images/picture2.jpg", HTTP_GET, [](AsyncWebServerRequest* request) {
-			Serial.println("GET: /images/picture2.jpg");
+			Serial.print("GET Request() url: "); Serial.println(request->url());
 			request->send(SPIFFS, "/images/picture2.jpg", "image/jpg");
 			timer.reset();
 			});
 
 		server.on("/images/picture3.jpg", HTTP_GET, [](AsyncWebServerRequest* request) {
-			Serial.println("GET: /images/picture3.jpg");
+			Serial.print("GET Request() url: "); Serial.println(request->url());
 			request->send(SPIFFS, "/images/picture3.jpg", "image/jpg");
 			timer.reset();
 			});
 
 		server.on("/sounds/vista.mp3", HTTP_GET, [](AsyncWebServerRequest* request) {
-			Serial.println("GET: /sounds/vista.mp3");
+			Serial.print("GET Request() url: "); Serial.println(request->url());
 			request->send(SPIFFS, "/sounds/vista.mp3", "audio/mpeg");
 			timer.reset();
 			});
 
 		server.on("/sounds/click.mp3", HTTP_GET, [](AsyncWebServerRequest* request) {
-			Serial.println("GET: /sounds/click.mp3");
+			Serial.print("GET Request() url: "); Serial.println(request->url());
 			request->send(SPIFFS, "/sounds/click.mp3", "audio/mpeg");
 			timer.reset();
 			});
 
 		server.on("/sounds/win.mp3", HTTP_GET, [](AsyncWebServerRequest* request) {
-			Serial.println("GET: /sounds/win.mp3");
+			Serial.print("GET Request() url: "); Serial.println(request->url());
 			request->send(SPIFFS, "/sounds/win.mp3", "audio/mpeg");
 			timer.reset();
 			});
 
 		server.on("/sounds/tie.mp3", HTTP_GET, [](AsyncWebServerRequest* request) {
-			Serial.println("GET: /sounds/tie.mp3");
+			Serial.print("GET Request() url: "); Serial.println(request->url());
 			request->send(SPIFFS, "/sounds/tie.mp3", "audio/mpeg");
 			timer.reset();
 			});
 
 		server.on("/sounds/loss.mp3", HTTP_GET, [](AsyncWebServerRequest* request) {
-			Serial.println("GET: /sounds/loss.mp3");
+			Serial.print("GET Request() url: "); Serial.println(request->url());
 			request->send(SPIFFS, "/sounds/loss.mp3", "audio/mpeg");
 			timer.reset();
 			});
 
 		server.on("/js/popper.min.js.map", HTTP_GET, [](AsyncWebServerRequest* request) {
-			Serial.println("GET: /js/popper.min.js.map");
+			Serial.print("GET Request() url: "); Serial.println(request->url());
 			request->send(404);
 			});
 		
 		server.on("/js/bootstrap.min.js.map", HTTP_GET, [](AsyncWebServerRequest* request) {
-			Serial.println("GET: /js/bootstrap.min.js.map");
+			Serial.print("GET Request() url: "); Serial.println(request->url());
 			request->send(404);
 			});
 
 		server.on("/css/bootstrap.min.css.map", HTTP_GET, [](AsyncWebServerRequest* request) {
-			Serial.println("GET: /css/bootstrap.min.css.map");
+			Serial.print("GET Request() url: "); Serial.println(request->url());
 			request->send(404);
 			});
 
 		// Setup handlers for JSON GET requests.
 
 		server.on("/ap", HTTP_GET, [](AsyncWebServerRequest* request) {
-			Serial.println("GET: /ap");
+			Serial.print("GET Request() url: "); Serial.println(request->url());
 
 			if (apOK) {
 				ApInfoClass info(WiFi);
@@ -671,7 +706,7 @@ void setup()
 			});
 
 		server.on("/wifi", HTTP_GET, [](AsyncWebServerRequest* request) {
-			Serial.println("GET: /wifi");
+			Serial.print("GET Request() url: "); Serial.println(request->url());
 
 			if (wifiOK) {
 				WiFiInfoClass info(WiFi);
@@ -685,63 +720,63 @@ void setup()
 			});
 
 		server.on("/game", HTTP_GET, [](AsyncWebServerRequest* request) {
-			Serial.println("GET: /game");
+			Serial.print("GET Request() url: "); Serial.println(request->url());
 			request->send(200, "application/json", settings.GameSettings.serialize());
 			timer.reset();
 			});
 
 		server.on("/server", HTTP_GET, [](AsyncWebServerRequest* request) {
-			Serial.println("GET: /server");
+			Serial.print("GET Request() url: "); Serial.println(request->url());
 			ServerInfoClass info(WiFi);
 			request->send(200, "application/json", info.serialize());
 			timer.reset();
 			});
 
 		server.on("/system", HTTP_GET, [](AsyncWebServerRequest* request) {
-			Serial.println("GET: /server");
+			Serial.print("GET Request() url: "); Serial.println(request->url());
 			SystemInfoClass info;
 			request->send(200, "application/json", info.serialize());
 			timer.reset();
 			});
 
 		server.on("/settings", HTTP_GET, [](AsyncWebServerRequest* request) {
-			Serial.println("GET: /settings");
+			Serial.print("GET Request() url: "); Serial.println(request->url());
 			request->send(200, "application/json", settings.serialize());
 			timer.reset();
 			});
 
+		// Setup handlers for JSON POST requests.
+
 		server.on("/smart", HTTP_POST, [](AsyncWebServerRequest* request) {
-			Serial.println("POST: /smart");
+			Serial.print("POST Request() url: "); Serial.println(request->url());
 			request->send(202, "text/html", "Knoblomat running ESP32 SmartConfig for 1 minute");
 			smartconfig = true;
 			timer.reset();
 			});
 
 		server.on("/clear", HTTP_POST, [](AsyncWebServerRequest* request) {
-			Serial.println("POST: /clear");
+			Serial.print("POST Request() url: "); Serial.println(request->url());
 			request->send(202, "text/html", "Knoblomat clearing non volatile storage");
 			settings.clear();
 			timer.reset();
 			});
 
 		server.on("/reset", HTTP_POST, [](AsyncWebServerRequest* request) {
-			Serial.println("POST: /reset");
+			Serial.print("POST Request() url: "); Serial.println(request->url());
 			request->send(202, "text/html", "Knoblomat reset timer");
 			timer.reset();
 			});
 
 		server.on("/reboot", HTTP_POST, [](AsyncWebServerRequest* request) {
-			Serial.println("POST: /reboot");
+			Serial.print("POST Request() url: "); Serial.println(request->url());
 			request->send(202, "text/html", "Knoblomat rebooting");
 			led = JLed(LED_BUILTIN).Blink(250, 250).Forever();
 			reboot = true;
 			});
 
-		// Setup handlers for JSON POST requests.
-
 		server.on("/ap", HTTP_POST, [](AsyncWebServerRequest* request) {}, NULL,
 			[](AsyncWebServerRequest* request, uint8_t* data, size_t len, size_t index, size_t total) {
-				Serial.println("POST: /ap");
+				Serial.print("POST Request() url: "); Serial.println(request->url());
 				String json = String((char*)data).substring(0, len);
 				settings.ApSettings.deserialize(json);
 				settings.ApSettings.save();
@@ -752,7 +787,7 @@ void setup()
 
 		server.on("/wifi", HTTP_POST, [](AsyncWebServerRequest* request) {}, NULL,
 			[](AsyncWebServerRequest* request, uint8_t* data, size_t len, size_t index, size_t total) {
-				Serial.println("POST: /wifi");
+				Serial.print("POST Request() url: "); Serial.println(request->url());
 				String json = String((char*)data).substring(0, len);
 				settings.WiFiSettings.deserialize(json);
 				settings.WiFiSettings.save();
@@ -763,7 +798,7 @@ void setup()
 
 		server.on("/game", HTTP_POST, [](AsyncWebServerRequest* request) {}, NULL,
 			[](AsyncWebServerRequest* request, uint8_t* data, size_t len, size_t index, size_t total) {
-				Serial.println("POST: /game");
+				Serial.print("POST Request() url: "); Serial.println(request->url());
 				String json = String((char*)data).substring(0, len);
 				settings.GameSettings.deserialize(json);
 				settings.GameSettings.save();
@@ -771,22 +806,20 @@ void setup()
 				timer.reset();
 			});
 
-		// Setup handlers for not found.
+		// Setup handler for not found - redirects to error page.
 
 		server.onNotFound([](AsyncWebServerRequest* request) {
 			Serial.print(request->methodToString());
-			Serial.print(": ");
-			Serial.println(request->url());
-			Serial.println("404: Not Found");
+			Serial.print(" Request() url: ");
+			Serial.print(request->url());
+			Serial.println(" 404: Not Found");
 			request->redirect("/error");
 			timer.reset();
 			});
 
 		// Start the HTTP server
 		server.begin();
-
-		ServerInfoClass info(WiFi);
-		info.print();
+		Serial.print("Listening on port "); Serial.println(ServerInfoClass::PORT);
 	}
 	else
 	{
