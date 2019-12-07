@@ -6,14 +6,7 @@
 //   Licensed under the MIT license. See the LICENSE file in the project root for more information.
 // </license>
 // --------------------------------------------------------------------------------------------------------------------
-#ifndef _SETTINGS_h
-#define _SETTINGS_h
-
-#if defined(ARDUINO) && ARDUINO >= 100
-	#include "arduino.h"
-#else
-	#include "WProgram.h"
-#endif
+#pragma once
 
 #include "ApSettings.h"
 #include "WiFiSettings.h"
@@ -35,6 +28,3 @@ public:
 	void save();							// Save the fields to storage
 	void init();							// Initializes the fields from storage
 };
-
-#endif
-

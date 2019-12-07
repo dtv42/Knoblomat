@@ -6,14 +6,7 @@
 //   Licensed under the MIT license. See the LICENSE file in the project root for more information.
 // </license>
 // --------------------------------------------------------------------------------------------------------------------
-#ifndef _WIFI_INFO_h
-#define _WIFI_INFO_h
-
-#if defined(ARDUINO) && ARDUINO >= 100
-	#include "arduino.h"
-#else
-	#include "WProgram.h"
-#endif
+#pragma once
 
 #include <WiFi.h>
 
@@ -40,6 +33,3 @@ public:
 	String serialize();						// Return a string serialization (JSON)
 	void print();							// Prints all fields on the serial line
 };
-
-#endif
-
